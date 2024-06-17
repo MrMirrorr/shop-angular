@@ -2,6 +2,7 @@ export interface IProductListObject {
   data: {
     lastPage: number;
     products: IProduct<string>[];
+    count: number;
   };
   error: string | null;
 }

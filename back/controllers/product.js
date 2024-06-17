@@ -60,6 +60,7 @@ export const getAll = async (req, res) => {
 			data: {
 				products: products.map(mapProduct),
 				lastPage: Math.ceil(count / limit),
+				count,
 			},
 		});
 	} catch (err) {

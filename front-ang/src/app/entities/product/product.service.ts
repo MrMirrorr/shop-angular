@@ -10,7 +10,7 @@ export class ProductService {
 
   private productUrl = `/api/products`;
 
-  getProducts() {
-    return this.http.get<IProductListObject>(this.productUrl);
+  getProducts(params: string = '') {
+    return this.http.get<IProductListObject>(`${this.productUrl}?${params}`);
   }
 }

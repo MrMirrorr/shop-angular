@@ -21,6 +21,9 @@ import { ProductDetailsComponent } from './pages/product-details/product-details
 import { HttpClientModule } from '@angular/common/http';
 import { ProductCardComponent } from './shared/components/product-card/product-card.component';
 import { MatCardModule } from '@angular/material/card';
+import { PaginatorComponent } from './shared/components/paginator/paginator.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { MatCardModule } from '@angular/material/card';
     ProductListComponent,
     ProductDetailsComponent,
     ProductCardComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatMenuModule,
     MatCardModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

@@ -1,5 +1,23 @@
-<app-main [withControlPanel]="true">
-  <div class="main_container">
-    <app-product-list [products]="products"></app-product-list>
+<app-main-layout [withControlPanel]="true">
+  <div class="content_wrapper main_container">
+    <div class="content">
+      <div
+        class="spinner_wrapper flex_center"
+        *ngIf="isLoading; else loadedContent"
+      >
+        <mat-spinner class="spinner"></mat-spinner>
+      </div>
+
+      <ng-template #loadedContent>
+        <app-product-list [products]="products"></app-product-list>
+      </ng-template>
+    </div>
+    <app-paginator
+      [pageSizeOptions]="pageSizeOptions"
+      [length]="count"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      (pageChange)="onPageChange($event)"
+    ></app-paginator>
   </div>
-</app-main>
+</app-main-layout>

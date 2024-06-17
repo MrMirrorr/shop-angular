@@ -1,0 +1,11 @@
+@import "mixins.scss";
+
+@include ng-deep {
+  .mat-mdc-paginator-container {
+    padding: 0;
+  }
+}
+
+:host {
+  display: block;
+}
