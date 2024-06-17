@@ -1,0 +1,11 @@
+@mixin ng-deep {
+  :host ::ng-deep {
+    @content;
+  }
+}
+
+@mixin custom-mixin($color) {
+  background-color: $color;
+  color: white;
+  padding: 10px;
+}

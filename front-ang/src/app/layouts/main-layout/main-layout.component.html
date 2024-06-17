@@ -1,0 +1,12 @@
+<app-header></app-header>
+
+<div class="content_container">
+  @if (withControlPanel) {
+  <app-control-panel></app-control-panel>
+  }
+  <main class="main_content">
+    <ng-content></ng-content>
+  </main>
+</div>
+
+<app-footer></app-footer>
