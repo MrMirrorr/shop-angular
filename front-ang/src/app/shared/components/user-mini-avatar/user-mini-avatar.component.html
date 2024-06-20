@@ -1,0 +1,14 @@
+<div class="avatar_wrapper">
+  <img
+    *ngIf="src; else avatarPlaceholder"
+    src="{{ src }}"
+    alt="{{ alt }}"
+    class="avatar {{ class }}"
+  />
+  <ng-template #avatarPlaceholder>
+    <mat-icon
+      class="avatar avatar--placeholder {{ class }}"
+      fontIcon="account_circle"
+    ></mat-icon>
+  </ng-template>
+</div>

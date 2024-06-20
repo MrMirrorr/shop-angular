@@ -1,1 +1,7 @@
-<router-outlet></router-outlet>
+<div class="spinner_wrapper flex_center" *ngIf="isLoading; else loadedContent">
+  <div>Проверка доступов...</div>
+  <mat-spinner class="spinner"></mat-spinner>
+</div>
+<ng-template #loadedContent>
+  <router-outlet></router-outlet>
+</ng-template>

@@ -20,15 +20,10 @@ export class ProductDetailsComponent {
 
   ngOnInit() {
     const productId = this.route.snapshot.paramMap.get('id') as string;
-
-    this.productService
-      .getProductById(productId)
-      .pipe(
-        tap(() => (this.isLoading = true)),
-        finalize(() => (this.isLoading = false))
-      )
-      .subscribe((res) => {
-        this.product = res.data;
-      });
+    this.isLoading = true;
+    this.productService.getProductById(productId).subscribe((res) => {
+      this.product = res.data;
+      this.isLoading = false;
+    });
   }
 }

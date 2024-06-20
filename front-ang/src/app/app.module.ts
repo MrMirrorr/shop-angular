@@ -25,6 +25,14 @@ import {
   PaginatorComponent,
   ProductCardComponent,
 } from './shared/components';
+import { AuthModalComponent } from './features/auth-modal/auth-modal.component';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+} from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserMiniAvatarComponent } from './shared/components/user-mini-avatar/user-mini-avatar.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +46,8 @@ import {
     ProductListComponent,
     ProductCardComponent,
     PaginatorComponent,
+    AuthModalComponent,
+    UserMiniAvatarComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +63,10 @@ import {
     MatCardModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatMenuModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

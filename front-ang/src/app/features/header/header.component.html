@@ -5,7 +5,37 @@
       <div class="logo flex_center">LOGO</div></a
     >
     <div class="control">
-      <button mat-button>Войти</button>
+      <button
+        mat-button
+        *ngIf="!currentUser; else userBlock"
+        (click)="openAuthModal()"
+      >
+        Войти
+      </button>
+
+      <ng-template #userBlock>
+        <app-user-mini-avatar
+          class="avatar--header"
+          src="{{ currentUser?.avatarUrl }}"
+          alt="{{ currentUser?.fullName }}"
+          [matMenuTriggerFor]="menu"
+        ></app-user-mini-avatar>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>dialpad</mat-icon>
+            <span>Redial</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>voicemail</mat-icon>
+            <span>Check voice mail</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Выход</span>
+          </button>
+        </mat-menu>
+      </ng-template>
     </div>
   </div>
 </header>

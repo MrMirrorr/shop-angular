@@ -11,7 +11,7 @@ import {
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  private productUrl = `/api/products`;
+  private readonly productUrl = `/api/products`;
 
   getProducts(params: string = '') {
     return this.http.get<IProductListObject>(`${this.productUrl}?${params}`);

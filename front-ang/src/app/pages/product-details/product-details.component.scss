@@ -65,17 +65,20 @@
       border-bottom: none;
     }
 
-    .comment_avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 15px;
+    // .comment_avatar {
+    //   display: block;
+    //   width: 50px;
+    //   height: 50px;
+    //   object-fit: cover;
+    //   border-radius: 50%;
 
-      &--default {
-        font-size: 52px;
-        color: #b3b3b3;
-      }
-    }
+    //   margin-right: 15px;
+
+    //   &--default {
+    //     font-size: 52px;
+    //     color: #b3b3b3;
+    //   }
+    // }
 
     .comment_content {
       .comment_author {
