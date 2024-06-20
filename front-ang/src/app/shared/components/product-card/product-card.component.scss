@@ -2,6 +2,12 @@
   display: block;
 }
 
+a.card_link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 .title {
   height: 60px;
   margin-top: 10px;

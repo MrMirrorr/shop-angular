@@ -11,8 +11,12 @@
       <ng-template #loadedContent>
         <app-product-list [products]="products"></app-product-list>
       </ng-template>
+
+      <div *ngIf="!products.length && !isLoading">Товары не найдены</div>
     </div>
+
     <app-paginator
+      *ngIf="!!products.length"
       [pageSizeOptions]="pageSizeOptions"
       [length]="count"
       [pageSize]="pageSize"

@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainLayoutComponent } from './layouts';
@@ -15,15 +19,12 @@ import {
   HeaderComponent,
   FooterComponent,
 } from './features';
-import { HomeComponent } from './pages';
-import { ProductListComponent } from './shared';
-import { ProductDetailsComponent } from './pages/product-details/product-details.component';
-import { HttpClientModule } from '@angular/common/http';
-import { ProductCardComponent } from './shared/components/product-card/product-card.component';
-import { MatCardModule } from '@angular/material/card';
-import { PaginatorComponent } from './shared/components/paginator/paginator.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HomeComponent, ProductDetailsComponent } from './pages';
+import {
+  ProductListComponent,
+  PaginatorComponent,
+  ProductCardComponent,
+} from './shared/components';
 
 @NgModule({
   declarations: [
@@ -31,10 +32,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     HeaderComponent,
     MainLayoutComponent,
     HomeComponent,
+    ProductDetailsComponent,
     ControlPanelComponent,
     FooterComponent,
     ProductListComponent,
-    ProductDetailsComponent,
     ProductCardComponent,
     PaginatorComponent,
   ],
@@ -42,12 +43,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,
     MatCardModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,

@@ -33,3 +33,17 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.m_0 {
+  margin: 0;
+}
+
+.cdk-overlay-container
+  .mat-mdc-option.loader_option
+  span.mdc-list-item__primary-text {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

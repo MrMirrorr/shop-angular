@@ -6,10 +6,12 @@ import { ProductDetailsComponent } from './pages/product-details/product-details
 const routes: Routes = [
   {
     path: '',
+    title: 'Home',
     component: HomeComponent,
   },
   {
     path: 'products/:id',
+    title: 'Product Details',
     component: ProductDetailsComponent,
   },
 ];

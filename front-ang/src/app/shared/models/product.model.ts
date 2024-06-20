@@ -7,6 +7,11 @@ export interface IProductListObject {
   error: string | null;
 }
 
+export interface IProductObject {
+  data: IProduct<IProductComment>;
+  error: string | null;
+}
+
 export interface IProduct<T> {
   id: string;
   title: string;
@@ -22,6 +27,7 @@ export interface IProduct<T> {
 export interface IProductComment {
   id: string;
   content: string;
-  author: any; // TODO: add author type
+  author: string;
+  avatarUrl?: string;
   createdAt: string;
 }

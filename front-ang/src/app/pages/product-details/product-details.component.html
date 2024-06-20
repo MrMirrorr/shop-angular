@@ -1,1 +1,39 @@
-<p>product-details works!</p>
+<app-main-layout [withControlPanel]="false">
+  <div class="main_container">
+    <div class="product_header">
+      <img
+        [src]="product.imageUrl"
+        alt="{{ product.title }}"
+        class="product_image"
+      />
+      <div class="product_info">
+        <h1 class="product_title">{{ product.title }}</h1>
+        <p class="product_price">{{ product.price }} USD</p>
+        <p class="product_amount">В наличии: {{ product.amount }}</p>
+        <p class="product_description">{{ product.description }}</p>
+      </div>
+    </div>
+    <div class="comments_section">
+      <h2>Комментарии</h2>
+      <div class="comment" *ngFor="let comment of product.comments">
+        <img
+          *ngIf="comment.avatarUrl; else defaultAvatar"
+          [src]="comment.avatarUrl"
+          alt="{{ comment.author }}"
+          class="comment_avatar comment_avatar--custom"
+        />
+        <ng-template #defaultAvatar>
+          <mat-icon
+            class="comment_avatar comment_avatar--default"
+            fontIcon="account_circle"
+          ></mat-icon>
+        </ng-template>
+        <div class="comment_content">
+          <p class="comment_author">{{ comment.author }}</p>
+          <p class="comment_text">{{ comment.content }}</p>
+          <p class="comment_date">{{ comment.createdAt | date : "short" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-layout>
