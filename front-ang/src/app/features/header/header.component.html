@@ -22,16 +22,8 @@
         ></app-user-mini-avatar>
 
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
-            <span>Redial</span>
-          </button>
-          <button mat-menu-item disabled>
-            <mat-icon>voicemail</mat-icon>
-            <span>Check voice mail</span>
-          </button>
           <button mat-menu-item (click)="logout()">
-            <mat-icon>logout</mat-icon>
+            <mat-icon fontIcon="logout"></mat-icon>
             <span>Выход</span>
           </button>
         </mat-menu>

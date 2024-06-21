@@ -1,18 +1,47 @@
 <a class="card_link" routerLink="products/{{ product.id }}">
-  <mat-card class="example-card" appearance="outlined">
-    <img
-      mat-card-image
-      src="{{ product.imageUrl }}"
-      alt="{{ product.title }}"
-    />
-    <mat-card-content>
-      <p class="title">
-        {{ product.title }}
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
+  <mat-card
+    class="product_card"
+    [ngClass]="{
+      'product_card--view-card': viewProduct === 'grid',
+      'product_card--view-line': viewProduct === 'list'
+    }"
+    appearance="outlined"
+  >
+    <img mat-card-image [src]="product.imageUrl" [alt]="product.title" />
+
+    <ng-template [ngIf]="viewProduct === 'grid'">
+      <mat-card-content class="content">
+        <p class="title">{{ product.title }}</p>
+        <p class="price">
+          <span class="digit">{{ product.price }}</span> руб.
+        </p>
+        <p class="amount">
+          Осталось: <span class="digit">{{ product.amount }}</span> шт.
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions class="actions">
+        <button mat-button><mat-icon fontIcon="favorite" /></button>
+        <button mat-button>В корзину</button>
+      </mat-card-actions>
+    </ng-template>
+
+    <div class="right_card" *ngIf="viewProduct === 'list'">
+      <mat-card-content class="content">
+        <p class="title">{{ product.title }}</p>
+        <div class="right_content">
+          <p class="price">
+            <span class="digit">{{ product.price }}</span> руб.
+          </p>
+          <p class="amount">
+            Осталось: <span class="digit">{{ product.amount }}</span> шт.
+          </p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="actions">
+        <button mat-button><mat-icon fontIcon="favorite" /></button>
+        <button mat-button>В корзину</button>
+      </mat-card-actions>
+    </div>
   </mat-card>
 </a>

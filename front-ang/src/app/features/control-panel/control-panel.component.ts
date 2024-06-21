@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CategoryService } from 'app/entities/category/category.service';
-import { SearchProductService } from 'app/entities/product/search-product.service';
-import { ICategory } from 'app/shared/models/category.model';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import {
+  SearchProductService,
+  SortProductService,
+  ViewProductService,
+  ViewType,
+} from 'app/entities/product';
+import { CategoryService } from 'app/entities/category';
+import { ICategory } from 'app/shared/models/category.model';
 
 @Component({
   selector: 'app-control-panel',
@@ -13,7 +19,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 export class ControlPanelComponent implements OnInit {
   constructor(
     private readonly searchProductService: SearchProductService,
-    private readonly categoryService: CategoryService
+    private readonly sortProductService: SortProductService,
+    private readonly categoryService: CategoryService,
+    private readonly viewProductService: ViewProductService
   ) {}
 
   searchControl = new FormControl();
@@ -22,6 +30,8 @@ export class ControlPanelComponent implements OnInit {
   categories: ICategory[] = [];
   isCategoriesLoading!: boolean;
   selectedCategory?: ICategory;
+
+  viewProduct!: ViewType;
 
   ngOnInit(): void {
     this.searchControl.valueChanges
@@ -41,15 +51,27 @@ export class ControlPanelComponent implements OnInit {
     this.selectedCategoryControl.valueChanges.subscribe((selectedValue) => {
       this.categoryService.setSelectedCategory(selectedValue);
     });
+
+    this.viewProductService.viewProduct$.subscribe((view) => {
+      this.viewProduct = view;
+    });
   }
 
   clearSearch(): void {
     this.searchControl.setValue('');
   }
 
-  openedChange(event: boolean) {
+  openedChangeCategory(event: boolean) {
     if (event && !this.categoryService.getCategoriesValue().length) {
       this.categoryService.getCategories();
     }
+  }
+
+  onSort(event: MatButtonToggleChange) {
+    this.sortProductService.setSort(event.value);
+  }
+
+  onView(event: MatButtonToggleChange) {
+    this.viewProductService.setView(event.value);
   }
 }

@@ -3,7 +3,7 @@
     <mat-label>Категория</mat-label>
     <mat-select
       [formControl]="selectedCategoryControl"
-      (openedChange)="openedChange($event)"
+      (openedChange)="openedChangeCategory($event)"
     >
       <mat-option
         *ngIf="isCategoriesLoading; else optionsContent"
@@ -34,4 +34,36 @@
       <mat-icon fontIcon="close"></mat-icon>
     </button>
   </mat-form-field>
+
+  <div class="view_block">
+    <span class="label">Отображать: </span>
+    <mat-button-toggle-group
+      name="viewing"
+      (change)="onView($event)"
+      hideSingleSelectionIndicator
+    >
+      <mat-button-toggle value="grid" [checked]="viewProduct === 'grid'">
+        <mat-icon fontIcon="grid_view" class="icon"></mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="list" [checked]="viewProduct === 'list'">
+        <mat-icon fontIcon="view_list" class="icon"></mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div class="sort_block">
+    <span class="label">Цена: </span>
+    <mat-button-toggle-group
+      name="sorting"
+      (change)="onSort($event)"
+      hideSingleSelectionIndicator
+    >
+      <mat-button-toggle value="asc" checked>
+        <mat-icon fontIcon="arrow_right_alt" class="icon_asc"></mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="desc">
+        <mat-icon fontIcon="arrow_right_alt" class="icon_desc"></mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 </div>

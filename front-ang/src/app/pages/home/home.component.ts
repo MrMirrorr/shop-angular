@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
-import { PaginateProductService } from 'app/entities/product/paginate-product.service';
-import { ProductService } from 'app/entities/product/product.service';
-import { SearchProductService } from 'app/entities/product/search-product.service';
+import {
+  ProductService,
+  PaginateProductService,
+  SearchProductService,
+  SortProductService,
+} from 'app/entities/product';
+import { CategoryService } from 'app/entities/category';
 import { IProduct } from 'app/shared/models/product.model';
-import { CategoryService } from 'app/entities/category/category.service';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +19,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private readonly productService: ProductService,
     private readonly searchProductService: SearchProductService,
+    private readonly sortProductService: SortProductService,
     private readonly paginateProductService: PaginateProductService,
     private readonly categoryService: CategoryService
   ) {}
@@ -32,11 +36,12 @@ export class HomeComponent implements OnInit {
     combineLatest([
       this.paginateProductService.pageChange$,
       this.searchProductService.searchTerm$,
+      this.sortProductService.sortProduct$,
       this.categoryService.selectedCategory$,
     ])
       .pipe(
         tap(() => (this.isLoading = true)),
-        switchMap(([pageInfo, searchTerm, selectedCategory]) => {
+        switchMap(([pageInfo, searchTerm, sort, selectedCategory]) => {
           if (
             searchTerm !== this.searchProductService.previousSearchTerm ||
             selectedCategory !== this.categoryService.previousCategory
@@ -51,7 +56,7 @@ export class HomeComponent implements OnInit {
 
           const queryParams = `page=${this.pageIndex + 1}&limit=${
             this.pageSize
-          }&search=${searchTerm}&category=${selectedCategory}`;
+          }&sort=${sort}&search=${searchTerm}&category=${selectedCategory}`;
 
           return this.productService.getProducts(queryParams);
         })

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 import { AuthService } from 'app/entities/auth/auth.service';
 import { IUser } from 'app/shared/models/auth.model';
+import { ConfirmDialogComponent } from 'app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -28,6 +29,14 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout();
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Выход',
+        message: 'Вы уверены, что хотите выйти?',
+        onConfirmAction: () => {
+          this.authService.logout();
+        },
+      },
+    });
   }
 }

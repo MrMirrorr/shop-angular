@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IProductListObject } from '../../shared/models/product.model';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

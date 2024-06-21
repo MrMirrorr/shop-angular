@@ -1,3 +1,13 @@
-@for (product of products; track product.id) {
-<app-product-card [product]="product"></app-product-card>
-}
+<div
+  class="products_block"
+  [ngClass]="{
+    'products_block--view-grid': viewProduct === 'grid',
+    'products_block--view-list': viewProduct === 'list'
+  }"
+>
+  <app-product-card
+    *ngFor="let product of products; trackBy: trackById"
+    [product]="product"
+    [viewProduct]="viewProduct"
+  ></app-product-card>
+</div>

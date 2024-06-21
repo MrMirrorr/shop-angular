@@ -33,6 +33,8 @@ import {
 } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserMiniAvatarComponent } from './shared/components/user-mini-avatar/user-mini-avatar.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { UserMiniAvatarComponent } from './shared/components/user-mini-avatar/us
     PaginatorComponent,
     AuthModalComponent,
     UserMiniAvatarComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +70,7 @@ import { UserMiniAvatarComponent } from './shared/components/user-mini-avatar/us
     MatDialogActions,
     MatDialogClose,
     MatMenuModule,
+    MatButtonToggleModule
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

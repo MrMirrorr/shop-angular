@@ -19,3 +19,22 @@
 .input-field {
   width: 200px;
 }
+
+.sort_block,
+.view_block {
+  .mat-button-toggle-appearance-standard {
+    background-color: #e2e2e2;
+
+    &.mat-button-toggle-checked {
+      background-color: #ffffff;
+    }
+  }
+
+  .icon_asc {
+    transform: rotate(90deg);
+  }
+
+  .icon_desc {
+    transform: rotate(-90deg);
+  }
+}
