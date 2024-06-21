@@ -35,6 +35,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { UserMiniAvatarComponent } from './shared/components/user-mini-avatar/user-mini-avatar.component';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { RegisterModalComponent } from './features/register-modal/register-modal.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     AuthModalComponent,
     UserMiniAvatarComponent,
     ConfirmDialogComponent,
+    RegisterModalComponent,
   ],
   imports: [
     BrowserModule,
