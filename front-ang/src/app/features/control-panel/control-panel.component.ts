@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import {
   SearchProductService,
   SortProductService,
+  SortType,
   ViewProductService,
   ViewType,
 } from 'app/entities/product';
 import { CategoryService } from 'app/entities/category';
 import { ICategory } from 'app/shared/models/category.model';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-control-panel',
   templateUrl: './control-panel.component.html',
   styleUrl: './control-panel.component.scss',
 })
-export class ControlPanelComponent implements OnInit {
+export class ControlPanelComponent implements OnInit, OnDestroy {
   constructor(
     private readonly searchProductService: SearchProductService,
     private readonly sortProductService: SortProductService,
@@ -24,47 +26,80 @@ export class ControlPanelComponent implements OnInit {
     private readonly viewProductService: ViewProductService
   ) {}
 
+  private destroy$ = new Subject<void>();
+
   searchControl = new FormControl();
-  selectedCategoryControl = new FormControl();
 
   categories: ICategory[] = [];
   isCategoriesLoading!: boolean;
-  selectedCategory?: ICategory;
+  selectedCategoryValue!: string;
 
   viewProduct!: ViewType;
 
+  sortValue!: SortType;
+
   ngOnInit(): void {
+    // search
     this.searchControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
       .subscribe((searchTerm) => {
         this.searchProductService.setSearchTerm(searchTerm);
       });
 
-    this.categoryService.categories$.subscribe((categories) => {
-      this.categories = categories;
-    });
+    this.searchProductService.searchTerm$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((searchTerm) => {
+        this.searchControl.setValue(searchTerm);
+      });
 
-    this.categoryService.isLoading$.subscribe((isLoading) => {
-      this.isCategoriesLoading = isLoading;
-    });
+    // category
+    this.categoryService.categories$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((categories) => {
+        this.categories = categories;
+      });
 
-    this.selectedCategoryControl.valueChanges.subscribe((selectedValue) => {
-      this.categoryService.setSelectedCategory(selectedValue);
-    });
+    this.categoryService.isLoading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isLoading) => {
+        this.isCategoriesLoading = isLoading;
+      });
 
-    this.viewProductService.viewProduct$.subscribe((view) => {
-      this.viewProduct = view;
-    });
+    this.categoryService.selectedCategory$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((selectedCategory) => {
+        this.selectedCategoryValue = selectedCategory;
+      });
+
+    // view
+    this.viewProductService.viewProduct$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((view) => {
+        this.viewProduct = view;
+      });
+
+    // sort
+    this.sortProductService.sortProduct$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((sort) => {
+        this.sortValue = sort;
+      });
   }
 
-  clearSearch(): void {
-    this.searchControl.setValue('');
-  }
-
-  openedChangeCategory(event: boolean) {
+  onOpenedChangeCategorySelect(event: boolean) {
     if (event && !this.categoryService.getCategoriesValue().length) {
       this.categoryService.getCategories();
     }
+  }
+
+  onCategoryChange(event: MatSelectChange) {
+    console.log(event.value);
+
+    this.categoryService.setSelectedCategory(event.value);
   }
 
   onSort(event: MatButtonToggleChange) {
@@ -73,5 +108,14 @@ export class ControlPanelComponent implements OnInit {
 
   onView(event: MatButtonToggleChange) {
     this.viewProductService.setView(event.value);
+  }
+
+  trackById(index: number, item: ICategory): string {
+    return item.id;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

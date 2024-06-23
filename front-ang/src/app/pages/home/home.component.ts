@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { combineLatest, switchMap, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Subject,
+  combineLatest,
+  distinctUntilChanged,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import {
   ProductService,
@@ -15,7 +22,7 @@ import { IProduct } from 'app/shared/models/product.model';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private readonly productService: ProductService,
     private readonly searchProductService: SearchProductService,
@@ -23,57 +30,84 @@ export class HomeComponent implements OnInit {
     private readonly paginateProductService: PaginateProductService,
     private readonly categoryService: CategoryService
   ) {}
+
+  private destroy$ = new Subject<void>();
+
   products: IProduct<string>[] = [];
   lastPage!: number;
   count!: number;
   isLoading = false;
 
   pageSizeOptions = this.paginateProductService.pageSizeOptions;
-  pageIndex = this.paginateProductService.pageIndex;
-  pageSize = this.paginateProductService.pageSize;
+  pageIndex!: number;
+  pageSize!: number;
 
   ngOnInit(): void {
     combineLatest([
-      this.paginateProductService.pageChange$,
-      this.searchProductService.searchTerm$,
-      this.sortProductService.sortProduct$,
-      this.categoryService.selectedCategory$,
+      this.searchProductService.searchTerm$.pipe(distinctUntilChanged()),
+      this.categoryService.selectedCategory$.pipe(distinctUntilChanged()),
     ])
       .pipe(
-        tap(() => (this.isLoading = true)),
-        switchMap(([pageInfo, searchTerm, sort, selectedCategory]) => {
-          if (
-            searchTerm !== this.searchProductService.previousSearchTerm ||
-            selectedCategory !== this.categoryService.previousCategory
-          ) {
-            this.pageIndex = 0;
-            this.searchProductService.previousSearchTerm = searchTerm;
-            this.categoryService.previousCategory = selectedCategory;
-          } else {
-            this.pageIndex = pageInfo.pageIndex;
-          }
-          this.pageSize = pageInfo.pageSize;
+        switchMap(([searchTerm, selectedCategory]) => {
+          this.paginateProductService.resetPageIndex(
+            this.paginateProductService.getPageParams().pageSize
+          );
 
-          const queryParams = `page=${this.pageIndex + 1}&limit=${
-            this.pageSize
-          }&sort=${sort}&search=${searchTerm}&category=${selectedCategory}`;
+          return combineLatest([
+            this.paginateProductService.pageParams$,
+            this.sortProductService.sortProduct$,
+          ]).pipe(
+            tap(() => (this.isLoading = true)),
+            switchMap(([params, sort]) => {
+              const queryParams = `page=${params.pageIndex + 1}&limit=${
+                params.pageSize
+              }&sort=${sort}&search=${searchTerm}&category=${
+                selectedCategory || ''
+              }`;
 
-          return this.productService.getProducts(queryParams);
-        })
+              return this.productService.getProducts(queryParams);
+            })
+          );
+        }),
+
+        takeUntil(this.destroy$)
       )
-      .subscribe((res) => {
-        this.products = res.data.products;
-        this.lastPage = res.data.lastPage;
-        this.count = res.data.count;
-        this.isLoading = false;
+      .subscribe({
+        next: (res) => {
+          this.products = res.data.products;
+          this.lastPage = res.data.lastPage;
+          this.count = res.data.count;
+          this.isLoading = false;
+        },
+        error: () => (this.isLoading = false),
       });
 
-    this.paginateProductService.loadProducts(this.pageIndex, this.pageSize);
+    this.paginateProductService.pageParams$
+      .pipe(
+        tap((params) => {
+          this.pageIndex = params.pageIndex;
+          this.pageSize = params.pageSize;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   onPageChange(event: PageEvent): void {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.paginateProductService.loadProducts(this.pageIndex, this.pageSize);
+    if (
+      event.pageSize !== this.paginateProductService.getPageParams().pageSize
+    ) {
+      this.paginateProductService.resetPageIndex(event.pageSize);
+    } else {
+      this.paginateProductService.setPageParams({
+        pageIndex: event.pageIndex,
+        pageSize: event.pageSize,
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

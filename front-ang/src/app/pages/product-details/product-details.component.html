@@ -7,7 +7,7 @@
   </div>
 
   <ng-template #loadedContent>
-    <div class="main_container">
+    <div *ngIf="product" class="main_container">
       <div class="product_header">
         <img
           [src]="product.imageUrl"
@@ -23,24 +23,15 @@
       </div>
       <div class="comments_section">
         <h2>Комментарии</h2>
-        <div class="comment" *ngFor="let comment of product.comments">
-          <!-- <img
-            *ngIf="comment.avatarUrl; else defaultAvatar"
-            [src]="comment.avatarUrl"
-            alt="{{ comment.author }}"
-            class="avatar avatar--comment"
-          /> -->
+        <div
+          class="comment"
+          *ngFor="let comment of product.comments; trackBy: trackById"
+        >
           <app-user-mini-avatar
             [src]="comment.avatarUrl"
             alt="{{ comment.author }}"
             class="avatar avatar--comment"
-          ></app-user-mini-avatar>
-          <!-- <ng-template #defaultAvatar>
-            <mat-icon
-              class="avatar_placeholder"
-              fontIcon="account_circle"
-            ></mat-icon>
-          </ng-template> -->
+          />
           <div class="comment_content">
             <p class="comment_author">{{ comment.author }}</p>
             <p class="comment_text">{{ comment.content }}</p>
@@ -48,6 +39,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="!product && !isLoading" class="main_container not_found">
+      Товар не найден
     </div>
   </ng-template>
 </app-main-layout>

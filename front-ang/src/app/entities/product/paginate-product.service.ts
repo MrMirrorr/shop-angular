@@ -1,17 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PaginateProductService {
   pageSizeOptions = [2, 4, 6];
-  pageIndex = 0;
-  pageSize = this.pageSizeOptions[0];
+  private pageParamsSubject = new BehaviorSubject<IPageParams>({
+    pageIndex: 0,
+    pageSize: this.pageSizeOptions[0],
+  });
 
-  pageChange$ = new Subject<{ pageIndex: number; pageSize: number }>();
+  pageParams$ = this.pageParamsSubject.asObservable();
 
-  loadProducts(pageIndex: number, pageSize: number): void {
-    this.pageChange$.next({ pageIndex, pageSize });
+  setPageParams(params: IPageParams): void {
+    this.pageParamsSubject.next(params);
   }
+
+  resetPageIndex(pageSize: number): void {
+    this.pageParamsSubject.next({
+      pageIndex: 0,
+      pageSize,
+    });
+  }
+
+  getPageParams() {
+    return this.pageParamsSubject.value;
+  }
+}
+
+interface IPageParams {
+  pageIndex: number;
+  pageSize: number;
 }

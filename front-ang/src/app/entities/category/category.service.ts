@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, finalize } from 'rxjs';
 import {
   ICategory,
   ICategoryListObject,
@@ -25,26 +25,27 @@ export class CategoryService {
 
   getCategories() {
     this.isLoadingSubject.next(true);
-    this.http.get<ICategoryListObject>(this.categoryUrl).subscribe((res) => {
-      this.categoriesSubject.next(res.data);
-      this.isLoadingSubject.next(false);
-      console.log(res.data);
-    });
-  }
-
-  setSelectedCategory(category: string) {
-    this.selectedCategorySubject.next(category);
+    this.http
+      .get<ICategoryListObject>(this.categoryUrl)
+      .pipe(finalize(() => this.isLoadingSubject.next(false)))
+      .subscribe((res) => {
+        this.categoriesSubject.next(res.data);
+      });
   }
 
   getCategoriesValue(): ICategory[] {
     return this.categoriesSubject.getValue();
   }
 
-  isLoadingValue(): boolean {
-    return this.isLoadingSubject.getValue();
+  setSelectedCategory(category: string) {
+    this.selectedCategorySubject.next(category);
   }
 
-  getSelectedCategoryValue(): string | null {
-    return this.selectedCategorySubject.getValue();
-  }
+  // isLoadingValue(): boolean {
+  //   return this.isLoadingSubject.getValue();
+  // }
+
+  // getSelectedCategoryValue(): string | null {
+  //   return this.selectedCategorySubject.getValue();
+  // }
 }
