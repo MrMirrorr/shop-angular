@@ -11,6 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainLayoutComponent } from './layouts';
@@ -18,24 +25,18 @@ import {
   ControlPanelComponent,
   HeaderComponent,
   FooterComponent,
+  AuthModalComponent,
+  LoginFormComponent,
+  RegistrationFormComponent,
 } from './features';
 import { HomeComponent, ProductDetailsComponent } from './pages';
 import {
   ProductListComponent,
   PaginatorComponent,
   ProductCardComponent,
+  ConfirmDialogComponent,
+  UserMiniAvatarComponent,
 } from './shared/components';
-import { AuthModalComponent } from './features/auth-modal/auth-modal.component';
-import {
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-} from '@angular/material/dialog';
-import { MatMenuModule } from '@angular/material/menu';
-import { UserMiniAvatarComponent } from './shared/components/user-mini-avatar/user-mini-avatar.component';
-import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { RegisterModalComponent } from './features/register-modal/register-modal.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { RegisterModalComponent } from './features/register-modal/register-modal
     AuthModalComponent,
     UserMiniAvatarComponent,
     ConfirmDialogComponent,
-    RegisterModalComponent,
+    LoginFormComponent,
+    RegistrationFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,7 +74,7 @@ import { RegisterModalComponent } from './features/register-modal/register-modal
     MatDialogActions,
     MatDialogClose,
     MatMenuModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

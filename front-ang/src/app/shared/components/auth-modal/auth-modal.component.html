@@ -1,0 +1,14 @@
+<h2 mat-dialog-title class="text_center">
+  {{ isLoginForm ? "Авторизация" : "Регистрация" }}
+</h2>
+<mat-dialog-content>
+  <app-login-form *ngIf="isLoginForm" />
+  <app-registration-form *ngIf="!isLoginForm" />
+  <p class="change_form_link">
+    Нет учетной записи?
+    <span (click)="toggleFormType()">{{
+      isLoginForm ? "Зарегистрироваться" : "Авторизоваться"
+    }}</span
+    >.
+  </p>
+</mat-dialog-content>

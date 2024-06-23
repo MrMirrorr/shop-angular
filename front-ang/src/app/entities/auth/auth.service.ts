@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, finalize, tap } from 'rxjs';
 import {
   ILoginCredentials,
+  IRegistrationCredentials,
   IUser,
   IUserObject,
 } from 'app/shared/models/auth.model';
@@ -37,6 +38,20 @@ export class AuthService {
     this.isAuthLoadingSubject.next(true);
     return this.http
       .post<IUserObject>(`${this.apiUrl}/login`, credentials)
+      .pipe(
+        tap((res) => {
+          this.setUser(res.data);
+        }),
+        finalize(() => {
+          this.isAuthLoadingSubject.next(false);
+        })
+      );
+  }
+
+  registration(credentials: IRegistrationCredentials) {
+    this.isAuthLoadingSubject.next(true);
+    return this.http
+      .post<IUserObject>(`${this.apiUrl}/register`, credentials)
       .pipe(
         tap((res) => {
           this.setUser(res.data);

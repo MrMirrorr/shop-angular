@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+mat-form-field {
+  display: block;
+  min-width: 400px;
+}
+
+.change_form_link {
+  span {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

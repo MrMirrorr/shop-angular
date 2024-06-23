@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatSelectChange } from '@angular/material/select';
 import {
   SearchProductService,
   SortProductService,
@@ -11,7 +12,6 @@ import {
 } from 'app/entities/product';
 import { CategoryService } from 'app/entities/category';
 import { ICategory } from 'app/shared/models/category.model';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-control-panel',

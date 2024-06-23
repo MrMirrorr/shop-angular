@@ -3,6 +3,12 @@ export interface ILoginCredentials {
   password: string;
 }
 
+export interface IRegistrationCredentials {
+  fullName: string;
+  email: string;
+  password: string;
+}
+
 export interface IUserObject {
   data: IUser;
   error: string | null;

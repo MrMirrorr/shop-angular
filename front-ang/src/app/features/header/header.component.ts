@@ -1,9 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthModalComponent } from '../auth-modal/auth-modal.component';
-import { AuthService } from 'app/entities/auth/auth.service';
+import {
+  AuthModalComponent,
+  ConfirmDialogComponent,
+} from 'app/shared/components';
+import { AuthService } from 'app/entities/auth';
 import { IUser } from 'app/shared/models/auth.model';
-import { ConfirmDialogComponent } from 'app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +13,9 @@ import { ConfirmDialogComponent } from 'app/shared/components/confirm-dialog/con
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, public dialog: MatDialog) {}
 
   currentUser: IUser | null = null;
-  readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -23,9 +24,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openAuthModal(): void {
-    this.dialog.open(AuthModalComponent, {
-      data: { modalTitle: 'Авторизация' },
-    });
+    this.dialog.open(AuthModalComponent);
   }
 
   logout(): void {
