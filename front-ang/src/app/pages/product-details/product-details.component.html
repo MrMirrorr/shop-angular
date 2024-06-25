@@ -16,7 +16,9 @@
         />
         <div class="product_info">
           <h1 class="product_title">{{ product.title }}</h1>
-          <p class="product_price">{{ product.price }} USD</p>
+          <p class="product_price">
+            {{ product.price | currency : "RUB" : "symbol" : "1.0-2" : "ru" }}
+          </p>
           <p class="product_amount">В наличии: {{ product.amount }}</p>
           <p class="product_description">{{ product.description }}</p>
         </div>

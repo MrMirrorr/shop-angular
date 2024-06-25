@@ -20,7 +20,7 @@ export interface IProduct<T> {
   amount: number;
   imageUrl: string;
   description: string;
-  createdAt: string;
+  createdAt: Date;
   comments: T[];
 }
 
@@ -29,5 +29,5 @@ export interface IProductComment {
   content: string;
   author: string;
   avatarUrl?: string;
-  createdAt: string;
+  createdAt: Date;
 }

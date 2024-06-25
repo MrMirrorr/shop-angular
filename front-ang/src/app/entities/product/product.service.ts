@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   IProductListObject,
   IProductObject,
-} from '../../shared/models/product.model';
+} from 'app/shared/models/product.model';
 
 @Injectable({
   providedIn: 'root',

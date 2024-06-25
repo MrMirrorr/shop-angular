@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+table {
+  width: 100%;
+  margin: 20px 0;
+}
+
+tr.mat-mdc-footer-row td {
+  font-weight: bold;
+}
+
+.product_title_td {
+  .product_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 120px;
+      height: auto;
+    }
+  }
+}
+
+.product_quantity_td {
+  .quantity_controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .quantity_value {
+    display: inline-block;
+  }
+}
+
+.create_order_td {
+  button {
+    display: block;
+    margin-left: auto;
+  }
+}

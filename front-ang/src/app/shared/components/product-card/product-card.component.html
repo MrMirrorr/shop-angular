@@ -13,7 +13,9 @@
       <mat-card-content class="content">
         <p class="title">{{ product.title }}</p>
         <p class="price">
-          <span class="digit">{{ product.price }}</span> руб.
+          <span class="digit">{{
+            product.price | currency : "RUB" : "symbol" : "1.0-2" : "ru"
+          }}</span>
         </p>
         <p class="amount">
           Осталось: <span class="digit">{{ product.amount }}</span> шт.

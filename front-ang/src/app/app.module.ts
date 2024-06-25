@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import localeRu from '@angular/common/locales/ru';
+import { registerLocaleData } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -18,6 +20,7 @@ import {
   MatDialogClose,
   MatDialogContent,
 } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainLayoutComponent } from './layouts';
@@ -37,6 +40,9 @@ import {
   ConfirmDialogComponent,
   UserMiniAvatarComponent,
 } from './shared/components';
+import { CartComponent } from './pages/cart/cart.component';
+
+registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
@@ -55,6 +61,7 @@ import {
     ConfirmDialogComponent,
     LoginFormComponent,
     RegistrationFormComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,8 +82,9 @@ import {
     MatDialogClose,
     MatMenuModule,
     MatButtonToggleModule,
+    MatTableModule,
   ],
-  providers: [provideAnimationsAsync()],
+  providers: [provideAnimationsAsync(), { provide: LOCALE_ID, useValue: 'ru' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

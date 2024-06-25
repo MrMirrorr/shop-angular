@@ -16,12 +16,16 @@
       <ng-template #userBlock>
         <app-user-mini-avatar
           class="avatar--header"
-          src="{{ currentUser?.avatarUrl }}"
-          alt="{{ currentUser?.fullName }}"
+          [src]="currentUser?.avatarUrl"
+          [alt]="currentUser?.fullName"
           [matMenuTriggerFor]="menu"
         ></app-user-mini-avatar>
 
         <mat-menu #menu="matMenu">
+          <a mat-menu-item routerLink="/cart">
+            <mat-icon fontIcon="shopping_cart"></mat-icon>
+            <span>Корзина</span>
+          </a>
           <button mat-menu-item (click)="logout()">
             <mat-icon fontIcon="logout"></mat-icon>
             <span>Выход</span>
