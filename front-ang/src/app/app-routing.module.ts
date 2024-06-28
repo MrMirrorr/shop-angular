@@ -4,6 +4,7 @@ import { HomeComponent } from './pages';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { authGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     component: CartComponent,
     canActivate: [authGuard],
   },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

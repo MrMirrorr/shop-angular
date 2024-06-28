@@ -16,3 +16,19 @@ header {
     }
   }
 }
+.cart_icon {
+  position: relative;
+
+  .indicator {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    bottom: 0;
+    right: 8px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #f33225;
+  }
+}

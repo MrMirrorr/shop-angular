@@ -22,8 +22,11 @@
         ></app-user-mini-avatar>
 
         <mat-menu #menu="matMenu">
-          <a mat-menu-item routerLink="/cart">
-            <mat-icon fontIcon="shopping_cart"></mat-icon>
+          <a mat-menu-item routerLink="/cart" class="cart_link">
+            <span class="cart_icon">
+              <mat-icon fontIcon="shopping_cart" />
+              <div class="indicator flex_center">{{ cartItemsCount }}</div>
+            </span>
             <span>Корзина</span>
           </a>
           <button mat-menu-item (click)="logout()">

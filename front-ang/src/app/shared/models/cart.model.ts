@@ -26,3 +26,15 @@ export interface ICartProduct {
   price: number;
   imageUrl: string;
 }
+
+export interface INewCartItem {
+  productId: string;
+  quantity: number;
+}
+
+export interface IUpdatedCartItemObject {
+  data: {
+    cartItem: ICartItem;
+  };
+  error: string | null;
+}

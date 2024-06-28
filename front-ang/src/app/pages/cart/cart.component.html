@@ -41,11 +41,23 @@
           <th mat-header-cell *matHeaderCellDef>Количество</th>
           <td mat-cell *matCellDef="let cartItem" class="product_quantity_td">
             <div class="quantity_controls">
-              <button matSuffix mat-icon-button>
+              <button
+                matSuffix
+                mat-icon-button
+                (click)="
+                  onDecrementQuantity(cartItem.product.id, cartItem.quantity)
+                "
+              >
                 <mat-icon fontIcon="remove" />
               </button>
               <span class="quantity_value">{{ cartItem.quantity }}</span>
-              <button matSuffix mat-icon-button>
+              <button
+                matSuffix
+                mat-icon-button
+                (click)="
+                  onIncrementQuantity(cartItem.product.id, cartItem.quantity)
+                "
+              >
                 <mat-icon fontIcon="add" />
               </button>
             </div>

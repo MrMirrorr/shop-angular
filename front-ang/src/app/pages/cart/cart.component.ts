@@ -24,16 +24,16 @@ export class CartComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.cartService.cartItems$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((items) => {
+        this.cartItems = items;
+      });
 
-    this.cartService
-      .getCart()
-      .pipe(
-        finalize(() => (this.isLoading = false)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((cart) => {
-        this.cartItems = cart.data.items;
+    this.cartService.isLoading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
       });
 
     // Редирект на главную страницу, если пользователь не авторизован
@@ -48,6 +48,15 @@ export class CartComponent implements OnInit, OnDestroy {
       0
     );
   }
+
+  onDecrementQuantity(productId: string, quantity: number) {
+    this.cartService.decrementQuantityCartItem({ productId, quantity });
+  }
+
+  onIncrementQuantity(productId: string, quantity: number) {
+    this.cartService.incrementQuantityCartItem({ productId, quantity });
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

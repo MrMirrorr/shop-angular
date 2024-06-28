@@ -46,6 +46,8 @@ import {
   CustomSnackbarComponent,
 } from './shared/components';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { StopEventDirective } from './directives/stop-event.directive';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -68,6 +70,8 @@ registerLocaleData(localeRu, 'ru');
     RegistrationFormComponent,
     CartComponent,
     CustomSnackbarComponent,
+    NotFoundComponent,
+    StopEventDirective,
   ],
   imports: [
     BrowserModule,

@@ -50,7 +50,7 @@ app.use('/api/products', commentRoutes);
 // cart
 app.use('/api/cart', cartRoutes);
 // cart item
-app.use('/api/items', cartItemRoutes);
+app.use('/api/cart-items', cartItemRoutes);
 // order
 app.use('/api/orders', orderRoutes);
 // favorite

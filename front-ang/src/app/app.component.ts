@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from './entities/auth';
 import { SnackbarService } from './shared/services';
+import { CartService } from './entities/cart';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { SnackbarService } from './shared/services';
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private cartService: CartService
   ) {}
 
   private destroy$ = new Subject<void>();
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.snackbarService.showSnackbarSuccess(
           `Приветствую, ${user.fullName}!`
         );
+        this.cartService.getCart();
       }
     });
   }
