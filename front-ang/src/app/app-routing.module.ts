@@ -3,22 +3,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    title: 'Home',
+    title: 'Все товары',
     component: HomeComponent,
   },
   {
     path: 'products/:id',
-    title: 'Product Details',
+    title: 'Детальная информация',
     component: ProductDetailsComponent,
   },
   {
     path: 'cart',
-    title: 'Cart',
+    title: 'Корзина',
     component: CartComponent,
+    canActivate: [authGuard],
   },
 ];
 

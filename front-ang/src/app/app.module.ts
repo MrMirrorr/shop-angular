@@ -9,7 +9,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -32,15 +36,16 @@ import {
   LoginFormComponent,
   RegistrationFormComponent,
 } from './features';
-import { HomeComponent, ProductDetailsComponent } from './pages';
+import { CartComponent, HomeComponent, ProductDetailsComponent } from './pages';
 import {
   ProductListComponent,
   PaginatorComponent,
   ProductCardComponent,
   ConfirmDialogComponent,
   UserMiniAvatarComponent,
+  CustomSnackbarComponent,
 } from './shared/components';
-import { CartComponent } from './pages/cart/cart.component';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -62,6 +67,7 @@ registerLocaleData(localeRu, 'ru');
     LoginFormComponent,
     RegistrationFormComponent,
     CartComponent,
+    CustomSnackbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,7 +90,11 @@ registerLocaleData(localeRu, 'ru');
     MatButtonToggleModule,
     MatTableModule,
   ],
-  providers: [provideAnimationsAsync(), { provide: LOCALE_ID, useValue: 'ru' }],
+  providers: [
+    provideAnimationsAsync(),
+    { provide: LOCALE_ID, useValue: 'ru' },
+    provideHttpClient(withInterceptors([errorInterceptor])),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

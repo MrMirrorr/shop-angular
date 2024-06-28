@@ -68,3 +68,19 @@ body {
     justify-content: flex-end;
   }
 }
+
+// snackbar стили
+.mat-mdc-snack-bar-container {
+  &.success .mdc-snackbar__surface {
+    background-color: #307232 !important;
+  }
+
+  &.error .mdc-snackbar__surface {
+    background-color: #f33225 !important;
+  }
+
+  .mdc-snackbar__label {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
