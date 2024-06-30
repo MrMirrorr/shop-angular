@@ -1,15 +1,20 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from 'app/entities/auth';
+import { combineLatest, map, take } from 'rxjs';
 
 export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const isAuthenticated = authService.isAuthenticated();
 
-  if (!isAuthenticated) {
-    router.navigate(['/']);
-  }
-
-  return isAuthenticated;
+  return combineLatest([authService.user$, authService.isAuthMeLoading$]).pipe(
+    take(1),
+    map(([user, isLoading]) => {
+      if (!user && !isLoading) {
+        router.navigate(['/']);
+        return false;
+      }
+      return true;
+    })
+  );
 };

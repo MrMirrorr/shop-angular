@@ -48,6 +48,7 @@ import {
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { StopEventDirective } from './directives/stop-event.directive';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -72,6 +73,7 @@ registerLocaleData(localeRu, 'ru');
     CustomSnackbarComponent,
     NotFoundComponent,
     StopEventDirective,
+    FavoritesComponent,
   ],
   imports: [
     BrowserModule,

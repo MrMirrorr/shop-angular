@@ -8,6 +8,7 @@ import {
 import { AuthService } from 'app/entities/auth';
 import { IUser } from 'app/shared/models/auth.model';
 import { CartService } from 'app/entities/cart';
+import { FavoriteService } from 'app/entities/favorite';
 
 @Component({
   selector: 'app-header',
@@ -18,13 +19,15 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     public dialog: MatDialog,
-    private cartService: CartService
+    private cartService: CartService,
+    private favoriteService: FavoriteService
   ) {}
 
   private destroy$ = new Subject<void>();
 
   currentUser: IUser | null = null;
   cartItemsCount!: number;
+  favoritesCount!: number;
 
   ngOnInit(): void {
     this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
@@ -35,6 +38,12 @@ export class HeaderComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((items) => {
         this.cartItemsCount = items.length;
+      });
+
+    this.favoriteService.favorites$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((favorites) => {
+        this.favoritesCount = favorites.length;
       });
   }
 

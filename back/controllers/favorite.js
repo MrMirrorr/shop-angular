@@ -12,13 +12,13 @@ export const create = async (req, res) => {
 
 		if (favorite) {
 			await FavoriteModel.deleteOne({ userId, product: productId });
-			res.send({ operation: 'DELETE', data: { favorite: null } });
+			res.send({ operation: 'DELETE', data: null });
 		} else {
 			favorite = await FavoriteModel.create({ userId, product: productId });
 
 			await favorite.populate('product');
 
-			res.send({ operation: 'CREATE', data: { favorite: mapFavorite(favorite) } });
+			res.send({ operation: 'CREATE', data: mapFavorite(favorite) });
 		}
 	} catch (err) {
 		serverErrorHandler(res, err, 'Не удалось добавить/удалить товар в/из избранное');
@@ -52,7 +52,7 @@ export const getAll = async (req, res) => {
 
 		res.send({
 			error: null,
-			data: { favorites: favorites.map(mapFavorite) },
+			data: favorites.map(mapFavorite),
 		});
 	} catch (err) {
 		serverErrorHandler(res, err, 'Не удалось получить избранные товары');

@@ -19,7 +19,15 @@
           <p class="product_price">
             {{ product.price | currency : "RUB" : "symbol" : "1.0-2" : "ru" }}
           </p>
-          <p class="product_amount">В наличии: {{ product.amount }}</p>
+          <p class="product_amount">В наличии: {{ product.amount }} шт.</p>
+          <button
+            mat-button
+            appStopEvent
+            (click)="onAddToCart()"
+            [disabled]="isAlreadyInCart"
+          >
+            {{ isAlreadyInCart ? "В корзине" : "В корзину" }}
+          </button>
           <p class="product_description">{{ product.description }}</p>
         </div>
       </div>

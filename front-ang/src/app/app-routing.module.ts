@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages';
-import { ProductDetailsComponent } from './pages/product-details/product-details.component';
-import { CartComponent } from './pages/cart/cart.component';
+import {
+  CartComponent,
+  FavoritesComponent,
+  HomeComponent,
+  NotFoundComponent,
+  ProductDetailsComponent,
+} from './pages';
 import { authGuard } from './guards/auth.guard';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -21,6 +24,12 @@ const routes: Routes = [
     path: 'cart',
     title: 'Корзина',
     component: CartComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'favorites',
+    title: 'Избранное',
+    component: FavoritesComponent,
     canActivate: [authGuard],
   },
   { path: '**', component: NotFoundComponent },

@@ -29,6 +29,13 @@
             </span>
             <span>Корзина</span>
           </a>
+          <a mat-menu-item routerLink="/favorites" class="cart_link">
+            <span class="favorite_icon">
+              <mat-icon fontIcon="favorite" />
+              <div class="indicator flex_center">{{ favoritesCount }}</div>
+            </span>
+            <span>Избранное</span>
+          </a>
           <button mat-menu-item (click)="logout()">
             <mat-icon fontIcon="logout"></mat-icon>
             <span>Выход</span>

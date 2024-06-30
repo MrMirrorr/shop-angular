@@ -51,6 +51,15 @@ a.card_link {
     mat-icon {
       margin-right: 0;
     }
+
+    .favorite_icon {
+      width: 24px;
+      height: 24px;
+
+      &::before {
+        font-size: 24px;
+      }
+    }
   }
 
   &--view-line {

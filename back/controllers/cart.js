@@ -34,7 +34,7 @@ export const getOne = async (req, res) => {
 			path: 'items',
 			populate: 'productId',
 		});
-		console.log(cart);
+
 		res.send({
 			error: null,
 			data: mapCart(cart),

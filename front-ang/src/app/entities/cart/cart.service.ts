@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, finalize } from 'rxjs';
 import {
   ICartItem,
   ICartObject,
   INewCartItem,
   IUpdatedCartItemObject,
 } from 'app/shared/models/cart.model';
-import { BehaviorSubject, finalize } from 'rxjs';
+import { SnackbarService } from 'app/shared/services';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private snackbarService: SnackbarService
+  ) {}
 
-  private cartItemsSubject = new BehaviorSubject<ICartItem[]>([]);
+  cartItemsSubject = new BehaviorSubject<ICartItem[]>([]);
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
 
   cartItems$ = this.cartItemsSubject.asObservable();
@@ -35,6 +39,7 @@ export class CartService {
 
   addToCart(newCartItem: INewCartItem) {
     this.http.post(this.cartItemsUrl, newCartItem).subscribe(() => {
+      this.snackbarService.showSnackbarSuccess('Товар добавлен в корзину');
       this.getCart();
     });
   }
@@ -45,17 +50,10 @@ export class CartService {
       quantity: -1,
     };
 
-    this.http
-      .post<IUpdatedCartItemObject>(this.cartItemsUrl, decrementedCartItem)
-      .subscribe((res) => {
-        const updatedCartItems = this.cartItemsSubject.value.map((item) => {
-          if (item.id === res.data.cartItem.id) {
-            return res.data.cartItem;
-          }
-          return item;
-        });
-        this.cartItemsSubject.next(updatedCartItems);
-      });
+    return this.http.post<IUpdatedCartItemObject>(
+      this.cartItemsUrl,
+      decrementedCartItem
+    );
   }
 
   incrementQuantityCartItem(cartItem: INewCartItem) {
@@ -64,17 +62,14 @@ export class CartService {
       quantity: 1,
     };
 
-    this.http
-      .post<IUpdatedCartItemObject>(this.cartItemsUrl, incrementedCartItem)
-      .subscribe((res) => {
-        const updatedCartItems = this.cartItemsSubject.value.map((item) => {
-          if (item.id === res.data.cartItem.id) {
-            return res.data.cartItem;
-          }
-          return item;
-        });
-        this.cartItemsSubject.next(updatedCartItems);
-      });
+    return this.http.post<IUpdatedCartItemObject>(
+      this.cartItemsUrl,
+      incrementedCartItem
+    );
+  }
+
+  deleteCartItem(cartItemId: string) {
+    return this.http.delete(`${this.cartItemsUrl}/${cartItemId}`);
   }
 
   get cartItemsCount(): number {

@@ -1,5 +1,6 @@
 :host {
   display: block;
+  user-select: none;
 }
 
 table {
@@ -12,16 +13,22 @@ tr.mat-mdc-footer-row td {
 }
 
 .product_title_td {
-  .product_info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  a.product_info_link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
 
-    img {
-      display: block;
-      width: 100%;
-      max-width: 120px;
-      height: auto;
+    .product_info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      img {
+        display: block;
+        width: 100%;
+        max-width: 120px;
+        height: auto;
+      }
     }
   }
 }

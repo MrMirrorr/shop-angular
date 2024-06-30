@@ -1,4 +1,4 @@
-<a class="card_link" [routerLink]="['products', product.id]">
+<a class="card_link" [routerLink]="['/products', product.id]">
   <mat-card
     class="product_card"
     [ngClass]="{
@@ -42,7 +42,9 @@
     <p class="title">{{ product.title }}</p>
     <div class="right_content">
       <p class="price">
-        <span class="digit">{{ product.price }}</span> руб.
+        <span class="digit">{{
+          product.price | currency : "RUB" : "symbol" : "1.0-2" : "ru"
+        }}</span>
       </p>
       <p class="amount">
         Осталось: <span class="digit">{{ product.amount }}</span> шт.
@@ -53,16 +55,19 @@
 
 <ng-template #cardActionsTemplate>
   <mat-card-actions class="actions">
-    <button mat-button appStopEvent>
-      <mat-icon fontIcon="favorite" />
+    <button mat-button appStopEvent (click)="onAddToFavorite()">
+      <mat-icon
+        class="favorite_icon"
+        [fontIcon]="isAlreadyInFavorite ? 'bookmark_check' : 'bookmark_add'"
+      />
     </button>
     <button
       mat-button
       appStopEvent
       (click)="onAddToCart()"
-      [disabled]="iaAlreadyInCart"
+      [disabled]="isAlreadyInCart"
     >
-      {{ iaAlreadyInCart ? "В корзине" : "В корзину" }}
+      {{ isAlreadyInCart ? "В корзине" : "В корзину" }}
     </button>
   </mat-card-actions>
 </ng-template>

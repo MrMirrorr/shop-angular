@@ -3,6 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from './entities/auth';
 import { SnackbarService } from './shared/services';
 import { CartService } from './entities/cart';
+import { FavoriteService } from './entities/favorite';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private snackbarService: SnackbarService,
-    private cartService: CartService
+    private cartService: CartService,
+    private favoriteService: FavoriteService
   ) {}
 
   private destroy$ = new Subject<void>();
@@ -35,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
           `Приветствую, ${user.fullName}!`
         );
         this.cartService.getCart();
+        this.favoriteService.getFavorites();
       }
     });
   }

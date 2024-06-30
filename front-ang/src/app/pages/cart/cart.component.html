@@ -7,19 +7,24 @@
   </div>
 
   <ng-template #loadedContent>
-    <div class="main_container">
+    <div *ngIf="!!cartItems.length" class="main_container">
       <table mat-table [dataSource]="cartItems" class="mat-elevation-z8">
         <!-- Item Column -->
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef>Товар</th>
           <td mat-cell *matCellDef="let cartItem" class="product_title_td">
-            <div class="product_info">
-              <img
-                [src]="cartItem.product.imageUrl"
-                [alt]="cartItem.product.title"
-              />
-              {{ cartItem.product.title }}
-            </div>
+            <a
+              [routerLink]="['/products', cartItem.product.id]"
+              class="product_info_link"
+            >
+              <div class="product_info">
+                <img
+                  [src]="cartItem.product.imageUrl"
+                  [alt]="cartItem.product.title"
+                />
+                {{ cartItem.product.title }}
+              </div>
+            </a>
           </td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
@@ -47,6 +52,10 @@
                 (click)="
                   onDecrementQuantity(cartItem.product.id, cartItem.quantity)
                 "
+                [disabled]="
+                  cartItem.quantity === 1 ||
+                  isControlLoading(cartItem.product.id)
+                "
               >
                 <mat-icon fontIcon="remove" />
               </button>
@@ -57,6 +66,7 @@
                 (click)="
                   onIncrementQuantity(cartItem.product.id, cartItem.quantity)
                 "
+                [disabled]="isControlLoading(cartItem.product.id)"
               >
                 <mat-icon fontIcon="add" />
               </button>
@@ -83,7 +93,12 @@
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef>Удалить</th>
           <td mat-cell *matCellDef="let cartItem">
-            <button matSuffix mat-icon-button>
+            <button
+              matSuffix
+              mat-icon-button
+              [disabled]="isControlLoading(cartItem.product.id)"
+              (click)="onDeleteCartItem(cartItem.id, cartItem.product.id)"
+            >
               <mat-icon fontIcon="close" />
             </button>
           </td>
@@ -109,4 +124,11 @@
       </table>
     </div>
   </ng-template>
+
+  <div
+    class="spinner_wrapper flex_center"
+    *ngIf="!isLoading && !cartItems.length"
+  >
+    Вы не добавили еще ни одного товара в корзину!
+  </div>
 </app-main-layout>
