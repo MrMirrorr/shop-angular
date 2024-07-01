@@ -9,12 +9,10 @@ export const fetchFavorites = createAsyncThunk(
 			const res = await axios.get(`/api/favorites`, { timeout: 3000 });
 
 			const {
-				data: {
-					data: { favorites },
-				},
+				data: { data },
 			} = res;
 
-			return { favorites };
+			return { data };
 		} catch (err) {
 			return serverErrorCatcher(err, 'error fetchFavorites', rejectWithValue);
 		}

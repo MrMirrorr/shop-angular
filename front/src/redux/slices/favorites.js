@@ -26,7 +26,7 @@ const favoritesSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchFavorites.fulfilled, (state, action) => {
-				state.favorites = action.payload.favorites;
+				state.favorites = action.payload.data;
 				state.isLoading = false;
 				state.error = null;
 			})

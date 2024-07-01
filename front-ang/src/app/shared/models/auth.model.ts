@@ -21,3 +21,9 @@ export interface IUser {
   avatarUrl: string;
   roleId: number;
 }
+
+export enum UserRoleEnum {
+  Admin = 0,
+  User = 1,
+  Guest = 2,
+}

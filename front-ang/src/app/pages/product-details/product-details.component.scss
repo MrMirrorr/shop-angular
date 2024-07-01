@@ -55,11 +55,22 @@
     margin-bottom: 15px;
   }
 
+  .write_comment_container {
+    max-width: 500px;
+    display: flex;
+
+    .write_comment_textarea {
+      width: 100%;
+    }
+  }
+
   .comment {
+    max-width: 500px;
     display: flex;
     align-items: flex-start;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
+    position: relative;
 
     &:last-child {
       border-bottom: none;
@@ -69,6 +80,16 @@
       .comment_author {
         font-weight: bold;
         margin-bottom: 5px;
+
+        .delete_btn {
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          .delete_btn_icon {
+            color: #e74c3c;
+          }
+        }
       }
 
       .comment_text {

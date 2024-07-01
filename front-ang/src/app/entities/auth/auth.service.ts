@@ -17,7 +17,6 @@ export class AuthService {
   private userSubject = new BehaviorSubject<IUser | null>(null);
   private isAuthMeLoadingSubject = new BehaviorSubject<boolean>(true);
   private isAuthLoadingSubject = new BehaviorSubject<boolean>(false);
-  private isAuthenticatedUser = false;
 
   user$ = this.userSubject.asObservable();
   isAuthMeLoading$ = this.isAuthMeLoadingSubject.asObservable();
@@ -73,12 +72,10 @@ export class AuthService {
 
   setUser(user: IUser) {
     this.userSubject.next(user);
-    this.isAuthenticatedUser = true;
   }
 
   resetUser() {
     this.userSubject.next(null);
-    this.isAuthenticatedUser = false;
   }
 
   setIsAuthLoading(isLoading: boolean) {

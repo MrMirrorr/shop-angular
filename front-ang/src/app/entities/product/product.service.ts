@@ -20,4 +20,14 @@ export class ProductService {
   getProductById(id: string) {
     return this.http.get<IProductObject>(`/api/products/${id}`);
   }
+
+  createComment(productId: string, comment: string) {
+    return this.http.post(`/api/products/${productId}/comments/`, {
+      content: comment,
+    });
+  }
+
+  deleteComment(productId: string, commentId: string) {
+    return this.http.delete(`/api/products/${productId}/comments/${commentId}`);
+  }
 }

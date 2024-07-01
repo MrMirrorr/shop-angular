@@ -33,6 +33,22 @@
       </div>
       <div class="comments_section">
         <h2>Комментарии</h2>
+        <div class="write_comment_container">
+          <mat-form-field class="write_comment_textarea">
+            <mat-label>Оставить комментарий</mat-label>
+            <textarea
+              matInput
+              placeholder="Всем рекомендую данный товар..."
+              [formControl]="commentFormControl"
+            ></textarea>
+            <mat-error *ngIf="commentFormControl.hasError('required')"
+              >Вы не ввели ни одного символа</mat-error
+            >
+          </mat-form-field>
+          <button mat-icon-button (click)="onCreateComment()">
+            <mat-icon fontIcon="send" />
+          </button>
+        </div>
         <div
           class="comment"
           *ngFor="let comment of product.comments; trackBy: trackById"
@@ -43,7 +59,17 @@
             class="avatar avatar--comment"
           />
           <div class="comment_content">
-            <p class="comment_author">{{ comment.author }}</p>
+            <p class="comment_author">
+              {{ comment.author }}
+              <button
+                *ngIf="userRole === 0"
+                mat-icon-button
+                (click)="onDeleteComment(comment.id)"
+                class="delete_btn"
+              >
+                <mat-icon fontIcon="delete_forever" class="delete_btn_icon" />
+              </button>
+            </p>
             <p class="comment_text">{{ comment.content }}</p>
             <p class="comment_date">{{ comment.createdAt | date : "short" }}</p>
           </div>
