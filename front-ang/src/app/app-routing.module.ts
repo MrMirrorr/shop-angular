@@ -6,6 +6,7 @@ import {
   HomeComponent,
   NotFoundComponent,
   ProductDetailsComponent,
+  ProductsListAdminComponent,
 } from './pages';
 import { authGuard } from './guards/auth.guard';
 
@@ -30,6 +31,12 @@ const routes: Routes = [
     path: 'favorites',
     title: 'Избранное',
     component: FavoritesComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'products-list-admin',
+    title: 'Админка - Все товары',
+    component: ProductsListAdminComponent,
     canActivate: [authGuard],
   },
   { path: '**', component: NotFoundComponent },

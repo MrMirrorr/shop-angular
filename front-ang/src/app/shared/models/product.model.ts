@@ -15,7 +15,7 @@ export interface IProductObject {
 export interface IProduct<T> {
   id: string;
   title: string;
-  categoryId: string;
+  categoryId: ICategory;
   price: number;
   amount: number;
   imageUrl: string;
@@ -30,4 +30,9 @@ export interface IProductComment {
   author: string;
   avatarUrl?: string;
   createdAt: Date;
+}
+
+export interface ICategory {
+  _id: string;
+  title: string;
 }

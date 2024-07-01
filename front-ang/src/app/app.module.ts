@@ -49,6 +49,7 @@ import { errorInterceptor } from './interceptors/error.interceptor';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { StopEventDirective } from './directives/stop-event.directive';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
+import { ProductsListAdminComponent } from './pages/products-list-admin/products-list-admin.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -74,6 +75,7 @@ registerLocaleData(localeRu, 'ru');
     NotFoundComponent,
     StopEventDirective,
     FavoritesComponent,
+    ProductsListAdminComponent,
   ],
   imports: [
     BrowserModule,

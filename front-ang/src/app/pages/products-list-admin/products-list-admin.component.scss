@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+table {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.product_id_td {
+  word-break: break-all;
+}
+
+.product_amount_th,
+.product_amount_td {
+  text-wrap: nowrap;
+}
+
+.product_image_td {
+  img {
+    display: block;
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+  }
+}
+
+.product_controls_td {
+  .controls_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .icon_edit {
+      color: green;
+    }
+
+    .icon_delete {
+      color: red;
+    }
+  }
+}
