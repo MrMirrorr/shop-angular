@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 
 @Component({
   selector: 'app-main-layout',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent {
-  @Input() withControlPanel!: boolean;
+  @Input() controlPanelConfig!: ControlPanelConfigType;
 }

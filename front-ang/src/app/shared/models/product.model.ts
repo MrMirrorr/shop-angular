@@ -32,7 +32,12 @@ export interface IProductComment {
   createdAt: Date;
 }
 
-export interface ICategory {
+export type NewProductType = Omit<
+  IProduct<string>,
+  'id' | 'createdAt' | 'comments'
+>;
+
+interface ICategory {
   _id: string;
   title: string;
 }

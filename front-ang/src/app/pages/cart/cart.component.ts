@@ -7,6 +7,7 @@ import { CartService } from 'app/entities/cart';
 import { AuthService } from 'app/entities/auth';
 import { ConfirmDialogComponent } from 'app/shared/components';
 import { SnackbarService } from 'app/shared/services';
+import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 
 @Component({
   selector: 'app-cart',
@@ -23,6 +24,10 @@ export class CartComponent implements OnInit, OnDestroy {
   ) {}
 
   private destroy$ = new Subject<void>();
+
+  controlPanelConfig: ControlPanelConfigType = {
+    enabled: false,
+  };
 
   displayedColumns: string[] = ['title', 'cost', 'quantity', 'sum', 'delete'];
   cartItems: ICartItem[] = [];

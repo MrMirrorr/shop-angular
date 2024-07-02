@@ -1,0 +1,74 @@
+<form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="isLoading" class="spinner_overlay">
+    <div class="spinner_wrapper flex_center">
+      <mat-spinner diameter="30"></mat-spinner>
+    </div>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="title" type="text" />
+    <mat-error *ngIf="addProductForm.get('title')?.invalid">
+      {{ getErrorMessage("title", "Название") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="select_category">
+    <mat-label>Категория</mat-label>
+    <mat-select formControlName="categoryId" name="categoryId">
+      <mat-option>Все</mat-option>
+      <mat-option
+        *ngFor="let category of categories; trackBy: trackById"
+        [value]="category.id"
+        >{{ category.title }}</mat-option
+      >
+    </mat-select>
+    <mat-error *ngIf="addProductForm.get('categoryId')?.invalid">
+      {{ getErrorMessage("categoryId", "Категория") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Цена</mat-label>
+    <input matInput formControlName="price" type="number" />
+    <mat-error *ngIf="addProductForm.get('price')?.invalid">
+      {{ getErrorMessage("price", "Цена") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Количество</mat-label>
+    <input matInput formControlName="amount" type="number" />
+    <mat-error *ngIf="addProductForm.get('amount')?.invalid">
+      {{ getErrorMessage("amount", "Количество") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Ссылка на изображение</mat-label>
+    <input matInput formControlName="imageUrl" type="text" />
+    <mat-error *ngIf="addProductForm.get('imageUrl')?.invalid">
+      {{ getErrorMessage("imageUrl", "Ссылка на изображение") }}
+    </mat-error>
+    <input
+      type="file"
+      (change)="onUploadInputChange($event)"
+      accept="image/png, image/gif, image/jpeg"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description" type="text" />
+    <mat-error *ngIf="addProductForm.get('description')?.invalid">
+      {{ getErrorMessage("description", "Описание") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-button type="button" mat-dialog-close>Отмена</button>
+    <button mat-button type="submit" [disabled]="addProductForm.invalid">
+      Сохранить
+    </button>
+  </mat-dialog-actions>
+</form>

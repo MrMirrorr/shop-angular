@@ -1,5 +1,10 @@
 <div class="main_container flex_between">
-  <mat-form-field class="select_category">
+  <mat-form-field
+    class="select_category"
+    *ngIf="
+      controlPanelConfig.enabled && controlPanelConfig.renderControls.category
+    "
+  >
     <mat-label>Категория</mat-label>
     <mat-select
       [(ngModel)]="selectedCategoryValue"
@@ -25,7 +30,12 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="input_field">
+  <mat-form-field
+    class="search_input"
+    *ngIf="
+      controlPanelConfig.enabled && controlPanelConfig.renderControls.search
+    "
+  >
     <mat-label>Поиск товаров</mat-label>
     <input matInput type="text" [formControl]="searchControl" />
     <button
@@ -38,7 +48,10 @@
     </button>
   </mat-form-field>
 
-  <div class="view_block">
+  <div
+    class="view_block"
+    *ngIf="controlPanelConfig.enabled && controlPanelConfig.renderControls.view"
+  >
     <span class="label">Отображать: </span>
     <mat-button-toggle-group
       name="viewing"
@@ -54,7 +67,10 @@
     </mat-button-toggle-group>
   </div>
 
-  <div class="sort_block">
+  <div
+    class="sort_block"
+    *ngIf="controlPanelConfig.enabled && controlPanelConfig.renderControls.sort"
+  >
     <span class="label">Цена: </span>
     <mat-button-toggle-group
       name="sorting"

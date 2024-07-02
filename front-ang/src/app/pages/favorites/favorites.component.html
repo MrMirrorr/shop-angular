@@ -1,4 +1,4 @@
-<app-main-layout [withControlPanel]="false">
+<app-main-layout [controlPanelConfig]="controlPanelConfig">
   <div
     class="spinner_wrapper flex_center"
     *ngIf="isLoading; else loadedContent"

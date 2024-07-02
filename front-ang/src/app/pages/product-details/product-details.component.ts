@@ -10,6 +10,7 @@ import { AuthService } from 'app/entities/auth';
 import { UserRoleEnum } from 'app/shared/models/auth.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'app/shared/components';
+import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 
 @Component({
   selector: 'app-product-details',
@@ -27,6 +28,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   private destroy$ = new Subject<void>();
+
+  controlPanelConfig: ControlPanelConfigType = {
+    enabled: false,
+  };
 
   product!: IProduct<IProductComment>;
   isLoading = false;
@@ -95,8 +100,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   onDeleteComment(commentId: string) {
-    console.log(commentId);
-
     this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Удаление',

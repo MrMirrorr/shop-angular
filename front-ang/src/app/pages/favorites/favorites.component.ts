@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'app/entities/auth';
 import { FavoriteService } from 'app/entities/favorite';
 import { IProduct } from 'app/shared/models/product.model';
+import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 
 @Component({
   selector: 'app-favorites',
@@ -18,6 +19,10 @@ export class FavoritesComponent implements OnInit, OnDestroy {
   ) {}
 
   private destroy$ = new Subject<void>();
+
+  controlPanelConfig: ControlPanelConfigType = {
+    enabled: false,
+  };
 
   favorites: IProduct<string>[] = [];
   isLoading = false;

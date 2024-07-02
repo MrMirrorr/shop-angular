@@ -21,13 +21,7 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      passwordConfirm: [
-        '',
-        [
-          Validators.required,
-          // Validators.pattern(this.registrationForm.get('password')?.value),
-        ],
-      ],
+      passwordConfirm: ['', [Validators.required]],
     });
   }
 

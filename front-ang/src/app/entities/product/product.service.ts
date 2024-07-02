@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   IProductListObject,
   IProductObject,
+  NewProductType,
 } from 'app/shared/models/product.model';
 
 @Injectable({
@@ -28,6 +29,23 @@ export class ProductService {
   }
 
   deleteComment(productId: string, commentId: string) {
-    return this.http.delete(`/api/products/${productId}/comments/${commentId}`);
+    return this.http.delete(
+      `${this.productUrl}/${productId}/comments/${commentId}`
+    );
+  }
+
+  createProduct(product: IProductObject) {
+    return this.http.post<IProductObject>(this.productUrl, product);
+  }
+
+  updateProduct(productId: string, product: NewProductType) {
+    return this.http.patch<IProductObject>(
+      `${this.productUrl}/${productId}`,
+      product
+    );
+  }
+
+  deleteProduct(productId: string) {
+    return this.http.delete(`${this.productUrl}/${productId}`);
   }
 }

@@ -1,3 +1,4 @@
+export * from './add-product-modal/add-product-modal.component';
 export * from './auth-modal/auth-modal.component';
 export * from './custom-snackbar/custom-snackbar.component';
 export * from './paginator/paginator.component';

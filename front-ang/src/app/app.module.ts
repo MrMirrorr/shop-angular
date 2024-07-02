@@ -25,6 +25,7 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainLayoutComponent } from './layouts';
@@ -32,11 +33,18 @@ import {
   ControlPanelComponent,
   HeaderComponent,
   FooterComponent,
-  AuthModalComponent,
   LoginFormComponent,
   RegistrationFormComponent,
+  AddProductFormComponent,
 } from './features';
-import { CartComponent, HomeComponent, ProductDetailsComponent } from './pages';
+import {
+  CartComponent,
+  HomeComponent,
+  ProductDetailsComponent,
+  NotFoundComponent,
+  FavoritesComponent,
+  ProductsListAdminComponent,
+} from './pages';
 import {
   ProductListComponent,
   PaginatorComponent,
@@ -44,12 +52,11 @@ import {
   ConfirmDialogComponent,
   UserMiniAvatarComponent,
   CustomSnackbarComponent,
+  AuthModalComponent,
+  AddProductModalComponent,
 } from './shared/components';
-import { errorInterceptor } from './interceptors/error.interceptor';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { StopEventDirective } from './directives/stop-event.directive';
-import { FavoritesComponent } from './pages/favorites/favorites.component';
-import { ProductsListAdminComponent } from './pages/products-list-admin/products-list-admin.component';
+import { errorInterceptor } from './interceptors';
+import { StopEventDirective } from './directives';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -76,6 +83,8 @@ registerLocaleData(localeRu, 'ru');
     StopEventDirective,
     FavoritesComponent,
     ProductsListAdminComponent,
+    AddProductFormComponent,
+    AddProductModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +106,7 @@ registerLocaleData(localeRu, 'ru');
     MatMenuModule,
     MatButtonToggleModule,
     MatTableModule,
+    MatDividerModule,
   ],
   providers: [
     provideAnimationsAsync(),

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
@@ -12,6 +12,7 @@ import {
 } from 'app/entities/product';
 import { CategoryService } from 'app/entities/category';
 import { ICategory } from 'app/shared/models/category.model';
+import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 
 @Component({
   selector: 'app-control-panel',
@@ -27,6 +28,16 @@ export class ControlPanelComponent implements OnInit, OnDestroy {
   ) {}
 
   private destroy$ = new Subject<void>();
+
+  @Input() controlPanelConfig: ControlPanelConfigType = {
+    enabled: true,
+    renderControls: {
+      search: true,
+      category: true,
+      sort: true,
+      view: true,
+    },
+  };
 
   searchControl = new FormControl();
 
@@ -97,8 +108,6 @@ export class ControlPanelComponent implements OnInit, OnDestroy {
   }
 
   onCategoryChange(event: MatSelectChange) {
-    console.log(event.value);
-
     this.categoryService.setSelectedCategory(event.value);
   }
 

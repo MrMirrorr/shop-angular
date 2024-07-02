@@ -19,7 +19,6 @@ export class CategoryService {
   categories$ = this.categoriesSubject.asObservable();
   isLoading$ = this.isLoadingSubject.asObservable();
   selectedCategory$ = this.selectedCategorySubject.asObservable();
-  previousCategory = '';
 
   private categoryUrl = `/api/categories`;
 
@@ -33,6 +32,10 @@ export class CategoryService {
       });
   }
 
+  getCategoriesObservable() {
+    return this.http.get<ICategoryListObject>(this.categoryUrl);
+  }
+
   getCategoriesValue(): ICategory[] {
     return this.categoriesSubject.getValue();
   }
@@ -41,11 +44,7 @@ export class CategoryService {
     this.selectedCategorySubject.next(category);
   }
 
-  // isLoadingValue(): boolean {
-  //   return this.isLoadingSubject.getValue();
-  // }
-
-  // getSelectedCategoryValue(): string | null {
-  //   return this.selectedCategorySubject.getValue();
-  // }
+  getSelectedCategory(): string {
+    return this.selectedCategorySubject.getValue();
+  }
 }

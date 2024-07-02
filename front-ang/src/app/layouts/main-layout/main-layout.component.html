@@ -1,7 +1,10 @@
 <app-header></app-header>
 
 <div class="content_container">
-  <app-control-panel *ngIf="withControlPanel"></app-control-panel>
+  <app-control-panel
+    *ngIf="controlPanelConfig.enabled"
+    [controlPanelConfig]="controlPanelConfig"
+  ></app-control-panel>
 
   <main class="main_content">
     <ng-content></ng-content>

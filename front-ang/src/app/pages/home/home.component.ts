@@ -16,6 +16,7 @@ import {
 } from 'app/entities/product';
 import { CategoryService } from 'app/entities/category';
 import { IProduct } from 'app/shared/models/product.model';
+import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   private destroy$ = new Subject<void>();
+
+  controlPanelConfig: ControlPanelConfigType = {
+    enabled: true,
+    renderControls: {
+      search: true,
+      category: true,
+      sort: true,
+      view: true,
+    },
+  };
 
   products: IProduct<string>[] = [];
   lastPage!: number;
