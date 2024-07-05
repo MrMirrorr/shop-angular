@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   IRoleObject,
+  IUser,
   IUserObject,
   IUsersObject,
 } from 'app/shared/models/auth.model';
@@ -30,5 +31,9 @@ export class UserService {
 
   deleteUser(userId: string) {
     return this.http.delete(`${this.userUrl}/${userId}`);
+  }
+
+  updateUser(user: IUser) {
+    return this.http.patch<IUserObject>(`${this.userUrl}/user`, user);
   }
 }

@@ -70,6 +70,10 @@ export class AuthService {
     });
   }
 
+  getUser() {
+    return this.userSubject.value;
+  }
+
   setUser(user: IUser) {
     this.userSubject.next(user);
   }

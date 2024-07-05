@@ -1,1 +1,77 @@
-<p>profile-modal works!</p>
+<h2 mat-dialog-title>Мой профиль</h2>
+
+<mat-card class="profile_card" appearance="outlined">
+  <ng-container *ngIf="!isEditMode; then view; else edit"></ng-container>
+</mat-card>
+
+<ng-template #view>
+  <mat-card-header>
+    <app-user-mini-avatar
+      [src]="user?.avatarUrl"
+      [alt]="user?.fullName"
+      [size]="200"
+    ></app-user-mini-avatar>
+  </mat-card-header>
+  <mat-card-title>{{ user?.fullName }}</mat-card-title>
+  <mat-card-content>
+    <p>{{ user?.email }}</p>
+    <p *ngIf="isAdmin" class="admin_mark">Администратор</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button (click)="onEditMode()">Изменить</button>
+  </mat-card-actions>
+</ng-template>
+
+<ng-template #edit>
+  <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+    <div *ngIf="isLoading" class="spinner_overlay">
+      <div class="spinner_wrapper flex_center">
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+    </div>
+
+    <mat-card-header class="flex_center" style="margin-bottom: 10px">
+      <app-user-mini-avatar
+        [src]="user?.avatarUrl"
+        [alt]="user?.fullName"
+        [size]="200"
+      ></app-user-mini-avatar>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Ссылка на аватар</mat-label>
+        <input matInput formControlName="avatarUrl" type="text" />
+        <mat-error *ngIf="editProfileForm.get('avatarUrl')?.invalid">
+          {{ getErrorMessage("avatarUrl", "Ссылка на аватар") }}
+        </mat-error>
+        <input
+          type="file"
+          (change)="onUploadInputChange($event)"
+          accept="image/png, image/gif, image/jpeg"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Полное имя</mat-label>
+        <input matInput formControlName="fullName" type="text" />
+        <mat-error *ngIf="editProfileForm.get('fullName')?.invalid">
+          {{ getErrorMessage("fullName", "Полное имя") }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="text" />
+        <mat-error *ngIf="editProfileForm.get('email')?.invalid">
+          {{ getErrorMessage("email", "Email") }}
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions class="flex_between">
+      <button mat-stroked-button (click)="offEditMode()">Отмена</button>
+      <button mat-stroked-button type="submit">Сохранить</button>
+    </mat-card-actions>
+  </form>
+</ng-template>

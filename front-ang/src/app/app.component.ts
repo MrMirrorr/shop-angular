@@ -32,7 +32,9 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
     this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
-      if (user) {
+      const prevUser = this.authService.getUser();
+
+      if (user && user.id !== prevUser?.id) {
         this.snackbarService.showSnackbarSuccess(
           `Приветствую, ${user.fullName}!`
         );

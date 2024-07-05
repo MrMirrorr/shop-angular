@@ -44,6 +44,7 @@ export class UsersListAdminComponent implements OnInit, OnDestroy {
   roles: IRole[] = [];
   isRolesLoading = false;
   editedUsers = new Map<IUser['id'], IUser['roleId']>();
+  currentUser = this.authService.getUser();
 
   ngOnInit(): void {
     this.initUsers();
@@ -78,6 +79,10 @@ export class UsersListAdminComponent implements OnInit, OnDestroy {
     if (newRoleId === undefined) return;
 
     this.userService.updateUserRole(user.id, newRoleId).subscribe((res) => {
+      if (res.data.id === this.currentUser?.id) {
+        this.authService.setUser(res.data);
+      }
+
       this.editedUsers.delete(user.id);
 
       const updatedUsers = this.users.map((u) => {

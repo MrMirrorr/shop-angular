@@ -55,6 +55,7 @@
                   name="roles"
                   [value]="user.roleId"
                   (selectionChange)="onRoleChange($event, user)"
+                  [disabled]="user.id === '65781fac5b1d372a9c9dad37'"
                 >
                   <mat-option
                     *ngIf="isRolesLoading; else optionsContent"
@@ -80,7 +81,7 @@
             <th mat-header-cell *matHeaderCellDef>Действия</th>
             <td mat-cell *matCellDef="let user" class="user_controls_td">
               <div
-                *ngIf="user.email !== 'admin@mail.ru'"
+                *ngIf="user.id !== '65781fac5b1d372a9c9dad37'"
                 class="controls_wrapper"
               >
                 <button

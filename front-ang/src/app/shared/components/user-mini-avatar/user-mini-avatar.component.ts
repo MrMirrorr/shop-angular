@@ -9,4 +9,5 @@ export class UserMiniAvatarComponent {
   @Input() src?: string;
   @Input() alt?: string;
   @Input() class?: string;
+  @Input() size?: number;
 }

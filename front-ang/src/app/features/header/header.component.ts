@@ -9,6 +9,7 @@ import { AuthService } from 'app/entities/auth';
 import { IUser, UserRoleEnum } from 'app/shared/models/auth.model';
 import { CartService } from 'app/entities/cart';
 import { FavoriteService } from 'app/entities/favorite';
+import { ProfileModalComponent } from '../profile-modal/profile-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -54,7 +55,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openProfile(): void {
-    this.dialog.open(AuthModalComponent);
+    this.dialog.open(ProfileModalComponent);
   }
 
   logout(): void {
