@@ -1,0 +1,55 @@
+@import "mixins.scss";
+
+@include ng-deep {
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+:host {
+  display: block;
+}
+
+.content_wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  margin: 15px 0;
+  flex-grow: 1;
+}
+
+table {
+  width: 100%;
+
+  td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+.user_controls_td {
+  .controls_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .icon_save {
+      color: green;
+    }
+
+    .icon_delete {
+      color: red;
+    }
+
+    button {
+      &:disabled {
+        .icon_save {
+          color: gray;
+        }
+      }
+    }
+  }
+}

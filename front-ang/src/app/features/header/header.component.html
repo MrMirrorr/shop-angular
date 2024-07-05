@@ -36,11 +36,27 @@
             </span>
             <span>Избранное</span>
           </a>
-          <mat-divider></mat-divider>
-          <a mat-menu-item routerLink="/products-list-admin" class="cart_link">
-            <mat-icon fontIcon="inventory" />
-            <span>Упр. товарами</span>
-          </a>
+          <div mat-menu-item class="cart_link" (click)="openProfile()">
+            <span class="profile_icon">
+              <mat-icon fontIcon="account_circle" />
+            </span>
+            <span>Профиль</span>
+          </div>
+          <ng-template [ngIf]="isAdmin">
+            <mat-divider></mat-divider>
+            <a
+              mat-menu-item
+              routerLink="/products-list-admin"
+              class="cart_link"
+            >
+              <mat-icon fontIcon="inventory" />
+              <span>Упр. товарами</span>
+            </a>
+            <a mat-menu-item routerLink="/users-list-admin" class="cart_link">
+              <mat-icon fontIcon="group" />
+              <span>Упр. пользователями</span>
+            </a>
+          </ng-template>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="logout()">
             <mat-icon fontIcon="logout"></mat-icon>

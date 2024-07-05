@@ -79,7 +79,7 @@ export class ProductsListAdminComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initProducts();
 
-    // Редирект на главную страницу, если пользователь не авторизован
+    // Редирект на главную страницу, если пользователь не авторизован или не админ
     this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       if (!user || user.roleId !== UserRoleEnum.Admin)
         this.router.navigate(['/']);

@@ -7,8 +7,9 @@ import {
   NotFoundComponent,
   ProductDetailsComponent,
   ProductsListAdminComponent,
+  UsersListAdminComponent,
 } from './pages';
-import { authGuard } from './guards/auth.guard';
+import { adminGuard, authGuard } from './guards';
 
 const routes: Routes = [
   {
@@ -37,7 +38,13 @@ const routes: Routes = [
     path: 'products-list-admin',
     title: 'Админка - Все товары',
     component: ProductsListAdminComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
+  },
+  {
+    path: 'users-list-admin',
+    title: 'Админка - Все пользователи',
+    component: UsersListAdminComponent,
+    canActivate: [authGuard, adminGuard],
   },
   { path: '**', component: NotFoundComponent },
 ];

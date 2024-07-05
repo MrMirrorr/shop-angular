@@ -8,7 +8,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      let errorMessage = '';
+      let errorMessage = 'Неизвестная ошибка';
       if (error.error instanceof ErrorEvent) {
         // Client-side error
         errorMessage = `Client-side error: ${error.error.message}`;

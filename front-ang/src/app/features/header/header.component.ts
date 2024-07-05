@@ -6,7 +6,7 @@ import {
   ConfirmDialogComponent,
 } from 'app/shared/components';
 import { AuthService } from 'app/entities/auth';
-import { IUser } from 'app/shared/models/auth.model';
+import { IUser, UserRoleEnum } from 'app/shared/models/auth.model';
 import { CartService } from 'app/entities/cart';
 import { FavoriteService } from 'app/entities/favorite';
 
@@ -26,12 +26,14 @@ export class HeaderComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
   currentUser: IUser | null = null;
+  isAdmin!: boolean;
   cartItemsCount!: number;
   favoritesCount!: number;
 
   ngOnInit(): void {
     this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       this.currentUser = user;
+      this.isAdmin = user?.roleId === UserRoleEnum.Admin;
     });
 
     this.cartService.cartItems$
@@ -48,6 +50,10 @@ export class HeaderComponent implements OnInit {
   }
 
   openAuthModal(): void {
+    this.dialog.open(AuthModalComponent);
+  }
+
+  openProfile(): void {
     this.dialog.open(AuthModalComponent);
   }
 

@@ -5,6 +5,7 @@ import {
 	CartItemModel,
 	OrderModel,
 	CommentModel,
+	FavoriteModel,
 } from '../models/index.js';
 import mapUser from '../helpers/map-user.js';
 import { generateToken } from '../helpers/token.js';
