@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.order-list {
+  width: 100%;
+  margin: 20px 0;
+}
+
+table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.product_id_td {
+  word-break: break-all;
+}
+
+.product_amount_th,
+.product_amount_td,
+.product_price_td,
+.product_total_sum_td {
+  text-wrap: nowrap;
+}
+
+.expanded-content {
+  margin: 10px 0;
+}
+
+h2,
+h3 {
+  margin-top: 20px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+table.order_table {
+  tr {
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+}

@@ -32,15 +32,15 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
     this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
-      const prevUser = this.authService.getUser();
+      // const prevUser = this.authService.getUser();
 
-      if (user && user.id !== prevUser?.id) {
-        this.snackbarService.showSnackbarSuccess(
-          `Приветствую, ${user.fullName}!`
-        );
-        this.cartService.getCart();
-        this.favoriteService.getFavorites();
-      }
+      // if (user && user.id !== prevUser?.id) {
+      this.snackbarService.showSnackbarSuccess(
+        `Приветствую, ${user?.fullName}!`
+      );
+      this.cartService.getCart();
+      this.favoriteService.getFavorites();
+      // }
     });
   }
 

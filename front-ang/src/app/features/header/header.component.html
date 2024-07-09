@@ -14,32 +14,35 @@
       </button>
 
       <ng-template #userBlock>
-        <app-user-mini-avatar
-          class="avatar--header"
-          [src]="currentUser?.avatarUrl"
-          [alt]="currentUser?.fullName"
-          [matMenuTriggerFor]="menu"
-        ></app-user-mini-avatar>
+        <div class="user_block flex_center" [matMenuTriggerFor]="menu">
+          <div class="user_name">{{ currentUser?.fullName }}</div>
+          <app-user-mini-avatar
+            [src]="currentUser?.avatarUrl"
+            [alt]="currentUser?.fullName"
+          />
+        </div>
 
         <mat-menu #menu="matMenu">
-          <a mat-menu-item routerLink="/cart" class="cart_link">
+          <a mat-menu-item routerLink="/cart" class="menu_link">
             <span class="cart_icon">
               <mat-icon fontIcon="shopping_cart" />
               <div class="indicator flex_center">{{ cartItemsCount }}</div>
             </span>
             <span>Корзина</span>
           </a>
-          <a mat-menu-item routerLink="/favorites" class="cart_link">
+          <a mat-menu-item routerLink="/favorites" class="menu_link">
             <span class="favorite_icon">
               <mat-icon fontIcon="favorite" />
               <div class="indicator flex_center">{{ favoritesCount }}</div>
             </span>
             <span>Избранное</span>
           </a>
-          <div mat-menu-item class="cart_link" (click)="openProfile()">
-            <span class="profile_icon">
-              <mat-icon fontIcon="account_circle" />
-            </span>
+          <a mat-menu-item routerLink="/orders" class="menu_link">
+            <mat-icon fontIcon="receipt_long" />
+            <span>Мои заказы</span>
+          </a>
+          <div mat-menu-item class="menu_link" (click)="openProfile()">
+            <mat-icon fontIcon="account_circle" />
             <span>Профиль</span>
           </div>
           <ng-template [ngIf]="isAdmin">
@@ -47,12 +50,12 @@
             <a
               mat-menu-item
               routerLink="/products-list-admin"
-              class="cart_link"
+              class="menu_link"
             >
               <mat-icon fontIcon="inventory" />
               <span>Упр. товарами</span>
             </a>
-            <a mat-menu-item routerLink="/users-list-admin" class="cart_link">
+            <a mat-menu-item routerLink="/users-list-admin" class="menu_link">
               <mat-icon fontIcon="group" />
               <span>Упр. пользователями</span>
             </a>

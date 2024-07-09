@@ -36,6 +36,7 @@ import {
   LoginFormComponent,
   RegistrationFormComponent,
   AddProductFormComponent,
+  ProfileModalComponent,
 } from './features';
 import {
   CartComponent,
@@ -44,6 +45,8 @@ import {
   NotFoundComponent,
   FavoritesComponent,
   ProductsListAdminComponent,
+  OrdersComponent,
+  UsersListAdminComponent,
 } from './pages';
 import {
   ProductListComponent,
@@ -57,8 +60,6 @@ import {
 } from './shared/components';
 import { errorInterceptor } from './interceptors';
 import { StopEventDirective } from './directives';
-import { UsersListAdminComponent } from './pages/users-list-admin/users-list-admin.component';
-import { ProfileModalComponent } from './features/profile-modal/profile-modal.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -89,6 +90,7 @@ registerLocaleData(localeRu, 'ru');
     AddProductModalComponent,
     UsersListAdminComponent,
     ProfileModalComponent,
+    OrdersComponent,
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,7 @@ export class CartService {
 
   cartItems$ = this.cartItemsSubject.asObservable();
   isLoading$ = this.isLoadingSubject.asObservable();
+  cartId = '';
 
   private readonly cartUrl = `/api/cart`;
   private readonly cartItemsUrl = `/api/cart-items`;
@@ -33,6 +34,7 @@ export class CartService {
       .get<ICartObject>(this.cartUrl)
       .pipe(finalize(() => this.isLoadingSubject.next(false)))
       .subscribe((res) => {
+        this.cartId = res.data.id;
         this.cartItemsSubject.next(res.data.items);
       });
   }
@@ -70,6 +72,10 @@ export class CartService {
 
   deleteCartItem(cartItemId: string) {
     return this.http.delete(`${this.cartItemsUrl}/${cartItemId}`);
+  }
+
+  deleteAllCartItems(cartId: string) {
+    return this.http.delete(`${this.cartItemsUrl}/cart/${cartId}`);
   }
 
   get cartItemsCount(): number {

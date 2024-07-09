@@ -5,6 +5,7 @@ import {
   FavoritesComponent,
   HomeComponent,
   NotFoundComponent,
+  OrdersComponent,
   ProductDetailsComponent,
   ProductsListAdminComponent,
   UsersListAdminComponent,
@@ -24,14 +25,20 @@ const routes: Routes = [
   },
   {
     path: 'cart',
-    title: 'Корзина',
+    title: 'Моя корзина',
     component: CartComponent,
     canActivate: [authGuard],
   },
   {
     path: 'favorites',
-    title: 'Избранное',
+    title: 'Избранные товары',
     component: FavoritesComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'orders',
+    title: 'Мои заказы',
+    component: OrdersComponent,
     canActivate: [authGuard],
   },
   {

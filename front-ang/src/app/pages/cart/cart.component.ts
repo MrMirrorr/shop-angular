@@ -8,6 +8,7 @@ import { AuthService } from 'app/entities/auth';
 import { ConfirmDialogComponent } from 'app/shared/components';
 import { SnackbarService } from 'app/shared/services';
 import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
+import { OrderService } from 'app/entities/order';
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +21,8 @@ export class CartComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private orderService: OrderService
   ) {}
 
   private destroy$ = new Subject<void>();
@@ -126,6 +128,31 @@ export class CartComponent implements OnInit, OnDestroy {
 
   isControlLoading(productId: string): boolean {
     return this.controlLoading.get(productId) || false;
+  }
+
+  onCreateOrder() {
+    this.isLoading = true;
+    this.orderService
+      .createOrder({
+        products: this.cartItems.map((item) => ({
+          id: item.product.id,
+          title: item.product.title,
+          price: item.product.price,
+          quantity: item.quantity,
+          total: item.product.price * item.quantity,
+        })),
+        totalSum: this.getTotalSum(),
+      })
+
+      .subscribe(() => {
+        this.snackbarService.showSnackbarSuccess('Заказ успешно создан');
+        this.cartService
+          .deleteAllCartItems(this.cartService.cartId)
+          .subscribe(() => {
+            this.cartService.getCart();
+            this.router.navigate(['/orders']);
+          });
+      });
   }
 
   ngOnDestroy(): void {
