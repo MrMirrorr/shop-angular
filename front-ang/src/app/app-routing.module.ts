@@ -11,6 +11,7 @@ import {
   UsersListAdminComponent,
 } from './pages';
 import { adminGuard, authGuard } from './guards';
+import { NgrxTestComponent } from './pages/ngrx-test/ngrx-test.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,11 @@ const routes: Routes = [
     title: 'Админка - Все пользователи',
     component: UsersListAdminComponent,
     canActivate: [authGuard, adminGuard],
+  },
+  {
+    path: 'ngrx-test',
+    title: 'Тест ngrx',
+    component: NgrxTestComponent,
   },
   { path: '**', component: NotFoundComponent },
 ];

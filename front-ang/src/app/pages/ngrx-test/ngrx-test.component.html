@@ -1,0 +1,14 @@
+<button (click)="increment()">Increment</button>
+
+<div>
+  Current Count: [ {{ count$ | async }} ] | Updated at: [
+  {{ updatedAt$ | async | date : "mediumTime" }} ]
+</div>
+
+<button (click)="decrement()" [disabled]="disableDecrease$ | async">
+  Decrement
+</button>
+
+<button (click)="reset()" [disabled]="disableDecrease$ | async">
+  Reset Counter
+</button>

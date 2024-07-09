@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -60,6 +60,14 @@ import {
 } from './shared/components';
 import { errorInterceptor } from './interceptors';
 import { StopEventDirective } from './directives';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { NgrxTestComponent } from './pages/ngrx-test/ngrx-test.component';
+import { reducers, metaReducers } from './reducers';
+import { CountEffects } from './reducers/count/count.effects';
+import { ProductEffects } from './reducers/product/product.effects';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -91,6 +99,7 @@ registerLocaleData(localeRu, 'ru');
     UsersListAdminComponent,
     ProfileModalComponent,
     OrdersComponent,
+    NgrxTestComponent,
   ],
   imports: [
     BrowserModule,
@@ -113,6 +122,16 @@ registerLocaleData(localeRu, 'ru');
     MatButtonToggleModule,
     MatTableModule,
     MatDividerModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      },
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    EffectsModule.forRoot([CountEffects, ProductEffects]),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     provideAnimationsAsync(),

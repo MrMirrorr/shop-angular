@@ -17,6 +17,9 @@ import {
 import { CategoryService } from 'app/entities/category';
 import { IProduct } from 'app/shared/models/product.model';
 import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
+import { IProductState } from 'app/reducers/product/product.reducer';
+import { Store } from '@ngrx/store';
+import { loadProducts } from 'app/reducers/product/product.actions';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +28,7 @@ import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   constructor(
+    private store: Store<IProductState>,
     private readonly productService: ProductService,
     private readonly searchProductService: SearchProductService,
     private readonly sortProductService: SortProductService,
@@ -54,6 +58,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   pageSize!: number;
 
   ngOnInit(): void {
+    this.store.dispatch(
+      loadProducts()
+      // TODO хранить в общем сторе состояние параметров и загружать их сюда
+    );
+
     combineLatest([
       this.searchProductService.searchTerm$.pipe(distinctUntilChanged()),
       this.categoryService.selectedCategory$.pipe(distinctUntilChanged()),
