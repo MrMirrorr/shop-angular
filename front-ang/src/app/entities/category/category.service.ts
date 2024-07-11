@@ -23,14 +23,18 @@ export class CategoryService {
   private categoryUrl = `/api/categories`;
 
   getCategories() {
-    this.isLoadingSubject.next(true);
-    this.http
-      .get<ICategoryListObject>(this.categoryUrl)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)))
-      .subscribe((res) => {
-        this.categoriesSubject.next(res.data);
-      });
+    return this.http.get<ICategoryListObject>(this.categoryUrl);
   }
+
+  // getCategories() {
+  //   this.isLoadingSubject.next(true);
+  //   this.http
+  //     .get<ICategoryListObject>(this.categoryUrl)
+  //     .pipe(finalize(() => this.isLoadingSubject.next(false)))
+  //     .subscribe((res) => {
+  //       this.categoriesSubject.next(res.data);
+  //     });
+  // }
 
   getCategoriesObservable() {
     return this.http.get<ICategoryListObject>(this.categoryUrl);

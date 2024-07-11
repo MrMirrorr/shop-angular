@@ -68,6 +68,7 @@ import { NgrxTestComponent } from './pages/ngrx-test/ngrx-test.component';
 import { reducers, metaReducers } from './reducers';
 import { CountEffects } from './reducers/count/count.effects';
 import { ProductEffects } from './reducers/product/product.effects';
+import { CategoryEffects } from './reducers/category/category.effects';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -130,7 +131,7 @@ registerLocaleData(localeRu, 'ru');
       },
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([CountEffects, ProductEffects]),
+    EffectsModule.forRoot([CountEffects, ProductEffects, CategoryEffects]),
     StoreRouterConnectingModule.forRoot(),
   ],
   providers: [

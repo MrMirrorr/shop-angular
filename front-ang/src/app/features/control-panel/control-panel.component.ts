@@ -1,6 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import {
+  Subject,
+  debounceTime,
+  distinctUntilChanged,
+  take,
+  takeUntil,
+} from 'rxjs';
+import { Store } from '@ngrx/store';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatSelectChange } from '@angular/material/select';
 import {
@@ -13,6 +20,15 @@ import {
 import { CategoryService } from 'app/entities/category';
 import { ICategory } from 'app/shared/models/category.model';
 import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
+import {
+  selectCategories,
+  selectIsLoading,
+  selectSelectedCategoryId,
+} from 'app/reducers/category/category.selectors';
+import {
+  loadCategories,
+  setCategoryId,
+} from 'app/reducers/category/category.actions';
 
 @Component({
   selector: 'app-control-panel',
@@ -21,6 +37,7 @@ import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
 })
 export class ControlPanelComponent implements OnInit, OnDestroy {
   constructor(
+    private store: Store,
     private readonly searchProductService: SearchProductService,
     private readonly sortProductService: SortProductService,
     private readonly categoryService: CategoryService,
@@ -41,15 +58,20 @@ export class ControlPanelComponent implements OnInit, OnDestroy {
 
   searchControl = new FormControl();
 
+  categories$ = this.store.select(selectCategories);
   categories: ICategory[] = [];
-  isCategoriesLoading!: boolean;
-  selectedCategoryValue!: string;
+  isCategoriesLoading$ = this.store.select(selectIsLoading);
+  selectedCategoryId$ = this.store.select(selectSelectedCategoryId);
 
   viewProduct!: ViewType;
 
   sortValue!: SortType;
 
   ngOnInit(): void {
+    this.categories$.pipe(takeUntil(this.destroy$)).subscribe((categories) => {
+      this.categories = categories;
+    });
+
     // search
     this.searchControl.valueChanges
       .pipe(
@@ -65,25 +87,6 @@ export class ControlPanelComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((searchTerm) => {
         this.searchControl.setValue(searchTerm);
-      });
-
-    // category
-    this.categoryService.categories$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((categories) => {
-        this.categories = categories;
-      });
-
-    this.categoryService.isLoading$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((isLoading) => {
-        this.isCategoriesLoading = isLoading;
-      });
-
-    this.categoryService.selectedCategory$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((selectedCategory) => {
-        this.selectedCategoryValue = selectedCategory;
       });
 
     // view
@@ -102,13 +105,13 @@ export class ControlPanelComponent implements OnInit, OnDestroy {
   }
 
   onOpenedChangeCategorySelect(event: boolean) {
-    if (event && !this.categoryService.getCategoriesValue().length) {
-      this.categoryService.getCategories();
+    if (event && !this.categories.length) {
+      this.store.dispatch(loadCategories());
     }
   }
 
   onCategoryChange(event: MatSelectChange) {
-    this.categoryService.setSelectedCategory(event.value);
+    this.store.dispatch(setCategoryId({ selectedCategoryId: event.value }));
   }
 
   onSort(event: MatButtonToggleChange) {

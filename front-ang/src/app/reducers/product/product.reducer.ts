@@ -4,18 +4,35 @@ import {
   loadProducts,
   loadProductsFailure,
   loadProductsSuccess,
+  setPagination,
 } from './product.actions';
 
 export const productNode = 'product';
 
 export interface IProductState {
-  products: IProduct<string>[];
+  products: {
+    products: IProduct<string>[] | [];
+    count: number;
+    lastPage: number;
+  };
+  pagination: {
+    pageIndex: number;
+    pageSize: number;
+  };
   isLoading: boolean;
   error: any;
 }
 
 const initialState: IProductState = {
-  products: [],
+  products: {
+    products: [],
+    count: 0,
+    lastPage: 1,
+  },
+  pagination: {
+    pageIndex: 0,
+    pageSize: 2,
+  },
   isLoading: false,
   error: null,
 };
@@ -28,17 +45,27 @@ export const productReducer = createReducer(
     isLoading: true,
     error: null,
   })),
-
-  on(loadProductsSuccess, (state, { products }) => ({
+  on(loadProductsSuccess, (state, payload) => ({
     ...state,
-    products,
+    products: {
+      products: payload.products.data.products,
+      count: payload.products.data.count,
+      lastPage: payload.products.data.lastPage,
+    },
     isLoading: false,
     error: null,
   })),
-
   on(loadProductsFailure, (state, { error }) => ({
     ...state,
     isLoading: false,
     error,
+  })),
+
+  on(setPagination, (state, { pageIndex, pageSize }) => ({
+    ...state,
+    pagination: {
+      pageIndex,
+      pageSize,
+    },
   }))
 );

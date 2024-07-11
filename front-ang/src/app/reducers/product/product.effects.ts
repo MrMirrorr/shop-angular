@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, exhaustMap, map, of } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ProductService } from 'app/entities/product';
 import {
@@ -20,9 +20,7 @@ export class ProductEffects {
       ofType(loadProducts),
       exhaustMap(({ params }) =>
         this.productService.getProducts(params).pipe(
-          map((result) =>
-            loadProductsSuccess({ products: result.data.products })
-          ),
+          map((result) => loadProductsSuccess({ products: result })),
           catchError(() =>
             of(
               loadProductsFailure({

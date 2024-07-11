@@ -7,13 +7,13 @@
   >
     <mat-label>Категория</mat-label>
     <mat-select
-      [(ngModel)]="selectedCategoryValue"
+      [value]="selectedCategoryId$ | async"
       name="category"
       (openedChange)="onOpenedChangeCategorySelect($event)"
       (selectionChange)="onCategoryChange($event)"
     >
       <mat-option
-        *ngIf="isCategoriesLoading; else optionsContent"
+        *ngIf="isCategoriesLoading$ | async; else optionsContent"
         class="loader_option"
         disabled
       >
@@ -22,7 +22,7 @@
       <ng-template #optionsContent>
         <mat-option>Все</mat-option>
         <mat-option
-          *ngFor="let category of categories; trackBy: trackById"
+          *ngFor="let category of categories$ | async; trackBy: trackById"
           [value]="category.id"
           >{{ category.title }}</mat-option
         >

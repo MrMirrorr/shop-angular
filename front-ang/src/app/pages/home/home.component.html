@@ -3,24 +3,28 @@
     <div class="content">
       <div
         class="spinner_wrapper flex_center"
-        *ngIf="isLoading; else loadedContent"
+        *ngIf="isLoading$ | async; else loadedContent"
       >
         <mat-spinner class="spinner"></mat-spinner>
       </div>
 
       <ng-template #loadedContent>
-        <app-product-list [products]="products"></app-product-list>
+        <app-product-list
+          [products]="(products$ | async) || []"
+        ></app-product-list>
       </ng-template>
 
-      <div *ngIf="!products.length && !isLoading">Товары не найдены</div>
+      <div *ngIf="!(products$ | async)?.length && !(isLoading$ | async)">
+        Товары не найдены
+      </div>
     </div>
 
     <app-paginator
-      *ngIf="!!products.length"
+      *ngIf="!!(products$ | async)?.length"
       [pageSizeOptions]="pageSizeOptions"
-      [length]="count"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
+      [length]="count$ | async"
+      [pageSize]="(pagination$ | async)?.pageSize || null"
+      [pageIndex]="(pagination$ | async)?.pageIndex || null"
       (pageChange)="onPageChange($event)"
     ></app-paginator>
   </div>

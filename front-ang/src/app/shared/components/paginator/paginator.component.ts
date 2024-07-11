@@ -38,9 +38,9 @@ export class MyCustomPaginatorIntl implements MatPaginatorIntl {
 })
 export class PaginatorComponent {
   @Input() pageSizeOptions!: number[];
-  @Input() length!: number;
-  @Input() pageSize!: number;
-  @Input() pageIndex!: number;
+  @Input() length!: number | null;
+  @Input() pageSize!: number | null;
+  @Input() pageIndex!: number | null;
 
   @Output() pageChange = new EventEmitter<PageEvent>();
 

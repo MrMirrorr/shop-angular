@@ -1,12 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  Subject,
-  combineLatest,
-  distinctUntilChanged,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { Observable, Subject, takeUntil, combineLatest } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { PageEvent } from '@angular/material/paginator';
 import {
   ProductService,
@@ -17,9 +11,18 @@ import {
 import { CategoryService } from 'app/entities/category';
 import { IProduct } from 'app/shared/models/product.model';
 import { ControlPanelConfigType } from 'app/shared/models/control-panel.model';
-import { IProductState } from 'app/reducers/product/product.reducer';
-import { Store } from '@ngrx/store';
-import { loadProducts } from 'app/reducers/product/product.actions';
+import {
+  loadProducts,
+  setPagination,
+} from 'app/reducers/product/product.actions';
+import {
+  selectCount,
+  selectIsLoading,
+  selectLastPage,
+  selectPagination,
+  selectProducts,
+} from 'app/reducers/product/product.selectors';
+import { selectSelectedCategoryId } from 'app/reducers/category/category.selectors';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +31,7 @@ import { loadProducts } from 'app/reducers/product/product.actions';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   constructor(
-    private store: Store<IProductState>,
+    private store: Store,
     private readonly productService: ProductService,
     private readonly searchProductService: SearchProductService,
     private readonly sortProductService: SortProductService,
@@ -48,82 +51,38 @@ export class HomeComponent implements OnInit, OnDestroy {
     },
   };
 
-  products: IProduct<string>[] = [];
-  lastPage!: number;
-  count!: number;
-  isLoading = false;
-
+  products$: Observable<IProduct<string>[]> = this.store.select(selectProducts);
+  isLoading$: Observable<boolean> = this.store.select(selectIsLoading);
+  lastPage$: Observable<number> = this.store.select(selectLastPage);
+  count$: Observable<number> = this.store.select(selectCount);
   pageSizeOptions = this.paginateProductService.pageSizeOptions;
-  pageIndex!: number;
-  pageSize!: number;
+  pagination$: Observable<{ pageIndex: number; pageSize: number }> =
+    this.store.select(selectPagination);
+  pagination!: { pageIndex: number; pageSize: number };
+  selectedCategoryId$ = this.store.select(selectSelectedCategoryId);
 
-  ngOnInit(): void {
-    this.store.dispatch(
-      loadProducts()
-      // TODO хранить в общем сторе состояние параметров и загружать их сюда
-    );
-
-    combineLatest([
-      this.searchProductService.searchTerm$.pipe(distinctUntilChanged()),
-      this.categoryService.selectedCategory$.pipe(distinctUntilChanged()),
-    ])
-      .pipe(
-        switchMap(([searchTerm, selectedCategory]) => {
-          this.paginateProductService.resetPageIndex(
-            this.paginateProductService.getPageParams().pageSize
-          );
-
-          return combineLatest([
-            this.paginateProductService.pageParams$,
-            this.sortProductService.sortProduct$,
-          ]).pipe(
-            tap(() => (this.isLoading = true)),
-            switchMap(([params, sort]) => {
-              const queryParams = `page=${params.pageIndex + 1}&limit=${
-                params.pageSize
-              }&sort=${sort}&search=${searchTerm}&category=${
-                selectedCategory || ''
-              }`;
-
-              return this.productService.getProducts(queryParams);
-            })
-          );
-        }),
-
-        takeUntil(this.destroy$)
-      )
-      .subscribe({
-        next: (res) => {
-          this.products = res.data.products;
-          this.lastPage = res.data.lastPage;
-          this.count = res.data.count;
-          this.isLoading = false;
-        },
-        error: () => (this.isLoading = false),
+  async ngOnInit() {
+    combineLatest([this.pagination$, this.selectedCategoryId$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([pagination, selectedCategoryId]) => {
+        this.store.dispatch(
+          loadProducts({
+            params: `page=${pagination.pageIndex + 1}&limit=${
+              pagination.pageSize
+            }&category=${selectedCategoryId || ''}`,
+          })
+        );
       });
 
-    this.paginateProductService.pageParams$
-      .pipe(
-        tap((params) => {
-          this.pageIndex = params.pageIndex;
-          this.pageSize = params.pageSize;
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+    this.pagination$.pipe(takeUntil(this.destroy$)).subscribe((pagination) => {
+      this.pagination = pagination;
+    });
   }
 
   onPageChange(event: PageEvent): void {
-    if (
-      event.pageSize !== this.paginateProductService.getPageParams().pageSize
-    ) {
-      this.paginateProductService.resetPageIndex(event.pageSize);
-    } else {
-      this.paginateProductService.setPageParams({
-        pageIndex: event.pageIndex,
-        pageSize: event.pageSize,
-      });
-    }
+    let pageIndex = event.pageIndex;
+    if (event.pageSize < this.pagination.pageSize) pageIndex = 0;
+    this.store.dispatch(setPagination({ pageIndex, pageSize: event.pageSize }));
   }
 
   ngOnDestroy(): void {
