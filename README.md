@@ -77,7 +77,7 @@
 
 ## Структура проекта
 
-    ```
+    ```bash
     shop-angular/
     │
     ├── back/ # Серверная часть (Node.js, Express)
