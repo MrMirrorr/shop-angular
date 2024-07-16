@@ -1,0 +1,21 @@
+<app-main-layout [controlPanelConfig]="controlPanelConfig">
+  <div
+    class="spinner_wrapper flex_center"
+    *ngIf="isLoading; else loadedContent"
+  >
+    <mat-spinner class="spinner"></mat-spinner>
+  </div>
+
+  <ng-template #loadedContent>
+    <div *ngIf="!!favorites.length" class="content_wrapper main_container">
+      <app-product-list [products]="favorites"></app-product-list>
+    </div>
+  </ng-template>
+
+  <div
+    class="spinner_wrapper flex_center"
+    *ngIf="!isLoading && !favorites.length"
+  >
+    У вас нет избранных товаров!
+  </div>
+</app-main-layout>
