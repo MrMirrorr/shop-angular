@@ -1,0 +1,13 @@
+<div
+  class="products_block"
+  [ngClass]="{
+    'products_block--view-grid': (viewMode$ | async) === 'grid',
+    'products_block--view-list': (viewMode$ | async) === 'list'
+  }"
+>
+  <app-product-card
+    *ngFor="let product of products; trackBy: trackById"
+    [product]="product"
+    [viewProduct]="viewMode$ | async"
+  ></app-product-card>
+</div>
